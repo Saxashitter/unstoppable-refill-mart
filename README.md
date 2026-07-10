@@ -11,3 +11,6 @@ Pull requests will only be accepted if it's a bugfix or optimization.
 
 ## How to Test
 Simply clone the repo, open Godot, import the project and run as if it wwas a normal project. Tinker with it if you want.
+
+## How to Catch Updates
+Simply join our Discord server: https://discord.gg/qYUxeB7tsp
