@@ -14,3 +14,6 @@ Simply clone the repo, open Godot, import the project and run as if it wwas a no
 
 ## How to Catch Updates
 Simply join our Discord server: https://discord.gg/qYUxeB7tsp
+
+## Credits
+Lorenzowo - Artist for Poyo
