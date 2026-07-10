@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://batu5sbxlv78d"]
+
+[ext_resource type="Script" uid="uid://dg33ufoi8h4uj" path="res://entities/goomba/goomba.gd" id="1_508vr"]
+[ext_resource type="Texture2D" uid="uid://bm2qnxhiig7gs" path="res://entities/goomba/animation/goomba1.png" id="1_svjv5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_508vr"]
+size = Vector2(12, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rqd23"]
+size = Vector2(8, 2)
+
+[node name="Goomba" type="CharacterBody2D" unique_id=155787538]
+collision_layer = 4
+script = ExtResource("1_508vr")
+metadata/_custom_type_script = "uid://bgxw6tn2wdb8i"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=601099458]
+texture = ExtResource("1_svjv5")
+offset = Vector2(0, -8)
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=208052873]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_508vr")
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1410274218]
+
+[node name="Hitbox" type="CollisionShape2D" parent="Hurtbox" unique_id=1793926810]
+position = Vector2(0, -15)
+shape = SubResource("RectangleShape2D_rqd23")
+
+[node name="LeftEdge" type="RayCast2D" parent="." unique_id=895460004]
+position = Vector2(-8, -2)
+target_position = Vector2(0, 26)
+
+[node name="RightEdge" type="RayCast2D" parent="." unique_id=1808344027]
+position = Vector2(8, -2)
+target_position = Vector2(0, 26)
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_touch"]

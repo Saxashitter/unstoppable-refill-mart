@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://uuhe4bwxiqpy"]
+
+[ext_resource type="Script" uid="uid://dcc1nfojwrwww" path="res://scenes/game.gd" id="1_yqjtg"]
+
+[node name="Game" type="Node2D" unique_id=315711296]
+script = ExtResource("1_yqjtg")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1799898617]
