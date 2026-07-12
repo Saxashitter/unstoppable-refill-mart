@@ -1,103 +1,61 @@
 extends Camera2D
 class_name PlayerCamera
 
-## --- Horizontal look-ahead ---
-@export var horizontal_look_distance: float = 120.0
-@export var horizontal_look_speed: float = 2.5
-@export var horizontal_return_speed: float = 100.0 # units/sec, not a lerp weight
+@export var starting_offset: Vector2 = Vector2(0, 0)
+@export var camera_lerp_speed: float = 0.035
+@export var limit: bool = false
 
-## --- Vertical follow (e.g. based on fall/jump velocity) ---
-@export var vertical_look_max: float = 120.0
-@export var vertical_look_divisor: float = 4.0 # velocity.y * 0.25 == velocity.y / 4.0
-@export var vertical_look_speed: float = 1.25
+var camera_offset: Vector2 = Vector2(0, 0)
 
-## --- Camera bounds ---
-@export var bounds_smooth_speed: float = 4.0
-var _bounds_smoothing: bool = false
+# private
+var _camera_position: Vector2 = Vector2(0, 0)
+var _camera_zoom: Vector2 = Vector2(0, 0)
+var _camera_boundary_position: Vector2 = Vector2(0, 0)
 
-## --- Camera position lock ---
-var forced_position: Vector2
+var boundaries: Array[PlayerCameraBoundary] = []
+var last_boundary: PlayerCameraBoundary = null
+var boundary_lerp: float = 0
 
-## --- Shake ---
-var _shake_strength: float = 0.0
-var _shake_decay: float = 5.0
-var _rng := RandomNumberGenerator.new()
+func get_current_boundary() -> PlayerCameraBoundary:
+	if boundaries.is_empty():
+		return null
+	return boundaries[-1]
 
-## --- Zoom ---
-@export var default_zoom: Vector2 = Vector2.ONE
-var _target_zoom: Vector2 = Vector2.ONE
-@export var zoom_speed: float = 5.0
+func get_player_position() -> Vector2:
+	var parent: Player = get_parent()
+	if not parent: return position
+	var target_position = parent.position + starting_offset + camera_offset
 
+	if limit:
+		target_position.x = clamp(target_position.x, limit_left, limit_right)
+		target_position.y = clamp(target_position.y, limit_top, limit_bottom)
+	return target_position
 
-func _ready() -> void:
-	_rng.randomize()
-	_target_zoom = default_zoom
-	zoom = default_zoom
+func _ready():
+	position = get_player_position()
+	_camera_zoom = zoom
 
+func _process(delta: float):
+	var target_position = get_player_position()
+	var current_boundary: PlayerCameraBoundary = get_current_boundary()
+	var in_boundary: bool = current_boundary != null
+	var was_in_boundary: bool = last_boundary != null
 
-func _process(delta: float) -> void:
-	_update_shake(delta)
-	_update_zoom(delta)
-
-
-## Call every physics frame while running/moving fast, direction is -1/0/1.
-func push_horizontal(direction: int, delta: float) -> void:
-	if direction == 0:
-		reset_horizontal(delta)
-		return
-	offset.x = lerp(offset.x, horizontal_look_distance * direction, horizontal_look_speed * delta)
-
-
-## Smoothly returns horizontal offset to 0 (e.g. when idle/walking, not running).
-func reset_horizontal(delta: float) -> void:
-	offset.x = move_toward(offset.x, 0, horizontal_return_speed * delta)
-
-## Call every physics frame with the player's current vertical velocity.
-func follow_velocity_y(velocity_y: float, delta: float) -> void:
-	var target_y: float = clamp(velocity_y / vertical_look_divisor, 0, vertical_look_max)
-	offset.y = lerp(offset.y, target_y, vertical_look_speed * delta)
-
-
-## --- Shake ---
-func shake(strength: float, decay: float = 5.0) -> void:
-	_shake_strength = strength
-	_shake_decay = decay
-
-
-func _update_shake(delta: float) -> void:
-	if _shake_strength <= 0:
-		return
-	offset += Vector2(
-		_rng.randf_range(-1, 1) * _shake_strength,
-		_rng.randf_range(-1, 1) * _shake_strength
-	)
-	_shake_strength = move_toward(_shake_strength, 0, _shake_decay * delta)
-
-
-## --- Zoom ---
-func set_zoom_target(z: Vector2) -> void:
-	_target_zoom = z
-
-func _update_zoom(delta: float) -> void:
-	zoom = zoom.lerp(_target_zoom, zoom_speed * delta)
-
-
-
-func set_bounds(rect: Rect2, smooth: bool = true) -> void:
-	if smooth:
-		_bounds_smoothing = true
-		_tween_limits_to(rect)
+	if not in_boundary:
+		boundary_lerp = max(boundary_lerp - delta, 0)
+		if was_in_boundary:
+			_camera_position = lerp(target_position, _camera_boundary_position, boundary_lerp)
+		else:
+			_camera_position = target_position
+		position = lerp(position, _camera_position, camera_lerp_speed)
+		zoom = lerp(zoom, _camera_zoom, camera_lerp_speed)
 	else:
-		_bounds_smoothing = false
-		limit_left = int(rect.position.x)
-		limit_top = int(rect.position.y)
-		limit_right = int(rect.position.x + rect.size.x)
-		limit_bottom = int(rect.position.y + rect.size.y)
-
-
-func _tween_limits_to(rect: Rect2) -> void:
-	var tween := create_tween().set_parallel(true)
-	tween.tween_property(self, "limit_left", int(rect.position.x), 1.0 / bounds_smooth_speed)
-	tween.tween_property(self, "limit_top", int(rect.position.y), 1.0 / bounds_smooth_speed)
-	tween.tween_property(self, "limit_right", int(rect.position.x + rect.size.x), 1.0 / bounds_smooth_speed)
-	tween.tween_property(self, "limit_bottom", int(rect.position.y + rect.size.y), 1.0 / bounds_smooth_speed)
+		last_boundary = current_boundary
+		boundary_lerp = min(boundary_lerp + delta, 1)
+		var rect: Rect2 = current_boundary.calc_rect
+		var new_zoom: Vector2 = _camera_zoom if current_boundary.containment_type == current_boundary.CAMSCALE_NONE else current_boundary.get_zoom()
+		_camera_boundary_position = target_position
+		_camera_boundary_position.x = clamp(_camera_boundary_position.x, rect.position.x, rect.position.x + rect.size.x)
+		_camera_boundary_position.y = clamp(_camera_boundary_position.y, rect.position.y, rect.position.y + rect.size.y)
+		position = lerp(position, lerp(_camera_position, _camera_boundary_position, boundary_lerp), camera_lerp_speed)
+		zoom = lerp(zoom, lerp(_camera_zoom, new_zoom, boundary_lerp), camera_lerp_speed)

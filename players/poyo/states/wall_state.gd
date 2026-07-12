@@ -3,37 +3,58 @@ class_name WallState
 
 @onready var animator: AnimationPlayer = $"../../Animator"
 @onready var movement: Movement = $"../../Movement"
+@onready var camera: PlayerCamera = $"../../PlayerCamera"
 
-@export var pushback: float = 20
+@export var wall_cling_decrease_mult: float = 0.95
 
-var direction: int = 1
+var wall_direction: int = 0
+var wall_normal: Vector2 = Vector2(0, 0)
 
-func enter(character: Player):
-	direction = 1
-	if character.get_wall_normal().x < 0:
-		direction = -1
-
-	character.set_facing(direction)
-	character.velocity.x = 0
-
+func enter(player: Player) -> void:
+	player.velocity.x = 0
 	animator.play("fall_loop")
-	animator.speed_scale = 1
+	animator.speed_scale = 0
+	wall_direction = sign(wall_normal.x)
+	player.set_facing(wall_direction)
 
-	for sprite: Sprite2D in character.sprites:
-		sprite.rotation = 0
+func physics_process(player: Player, delta: float) -> void:
+	if _handle_cling(player): return
+	_handle_jump(player)
 
-func physics_process(character: Player, delta: float):
-	movement.apply_gravity(character, delta / 2)
-	character.velocity.x = -pushback * direction
+func _handle_cling(player: Player) -> bool:
+	player.velocity.y *= wall_cling_decrease_mult
+	player.move_and_slide()
 
-	character.move_and_slide()
+	if not player.is_on_wall() or player.is_on_floor():
+		var idleState: IdleState = states["IdleState"]
 
-	if !character.is_on_wall() or character.is_on_floor():
-		character.velocity.x = 0
-		return states["IdleState"]
+		camera.camera_offset.x = 0
+		idleState.tap_timer = 0
+		idleState.last_direction = 0
+		idleState.run_direction = 0
+		idleState.running = false
 
-	if !Input.is_action_just_pressed("jump"): return
+		machine.set_state(idleState)
+		return true
 
-	character.velocity.x = states["IdleState"].run_speed * direction
-	states["IdleState"].jump(character)
-	return "IdleState"
+	return false
+func _handle_jump(player: Player) -> bool:
+	if !Input.is_action_just_pressed("jump"): return false
+
+	var idleState: IdleState = states["IdleState"]
+
+	player.velocity = wall_normal * idleState.run_speed
+	camera.camera_offset.x = 0
+	idleState.tap_timer = 0
+	idleState.last_direction = 0
+	idleState.run_direction = 0
+	idleState.running = false
+
+	if movement.input_direction() == wall_direction:
+		idleState.run(player, wall_direction)
+		print("RUN!")
+
+	idleState.jump(player)
+	machine.set_state(idleState)
+	player.move_and_slide()
+	return true

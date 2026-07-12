@@ -3,9 +3,13 @@
 [ext_resource type="Script" uid="uid://0nnhup41j6tw" path="res://players/poyo/poyo.gd" id="1_4vilx"]
 [ext_resource type="Script" uid="uid://dkwix1ctjocak" path="res://players/movement.gd" id="2_7j878"]
 [ext_resource type="Script" uid="uid://c8yhemvmwbj0m" path="res://classes/state_machine.gd" id="2_wtwwy"]
+[ext_resource type="AudioStream" uid="uid://dgvr4yojistn7" path="res://sounds/poyo/footstep.wav" id="2_yfd5w"]
+[ext_resource type="Script" uid="uid://cgrmypc6p11ta" path="res://classes/sound.gd" id="3_1f2e0"]
 [ext_resource type="Script" uid="uid://cs21pnden1c27" path="res://players/poyo/states/idle_state.gd" id="4_8s7tj"]
+[ext_resource type="AudioStream" uid="uid://cyvx3oaewyh15" path="res://sounds/poyo/jump.wav" id="4_gomai"]
 [ext_resource type="Texture2D" uid="uid://bllhgdovmoh7y" path="res://players/poyo/animations/Idle/Body/idle_body_0.png" id="4_xmhtm"]
 [ext_resource type="Texture2D" uid="uid://dqjikj3r1m3ni" path="res://players/poyo/animations/Idle/Face/idle_face_0.png" id="5_bpqhh"]
+[ext_resource type="Script" uid="uid://bjsutqiosqi34" path="res://players/poyo/states/wall_state.gd" id="5_ebg0e"]
 [ext_resource type="Texture2D" uid="uid://ckhhhk1ks844s" path="res://players/poyo/animations/Idle/Body/idle_body_1.png" id="6_4vilx"]
 [ext_resource type="Texture2D" uid="uid://dbw5i82a2s1ly" path="res://players/poyo/animations/Idle/Body/idle_body_2.png" id="7_a23ko"]
 [ext_resource type="Texture2D" uid="uid://clutyrkswbmhp" path="res://players/poyo/animations/Idle/Body/idle_body_3.png" id="8_d6hut"]
@@ -450,6 +454,23 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(0, -25)]
 }
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sounds/Step")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"play_pitch_rng"
+}, {
+"args": [],
+"method": &"play_pitch_rng"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_ltfh7"]
 resource_name = "walk"
@@ -504,6 +525,23 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(0, -25)]
 }
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sounds/Step")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.6204896),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"play_pitch_rng"
+}, {
+"args": [],
+"method": &"play_pitch_rng"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_s8xek"]
 _data = {
@@ -524,15 +562,26 @@ height = 34.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uvvjj"]
 size = Vector2(19.75, 4)
 
-[node name="Player" type="CharacterBody2D" unique_id=383802847]
+[node name="Player" type="CharacterBody2D" unique_id=383802847 node_paths=PackedStringArray("sounds")]
 collision_layer = 2
 floor_constant_speed = true
 floor_snap_length = 8.0
 script = ExtResource("1_4vilx")
+sounds = NodePath("Sounds")
 metadata/_custom_type_script = "uid://7b4txbuo7ewa"
 
-[node name="Movement" type="Node" parent="." unique_id=930654360]
-script = ExtResource("2_7j878")
+[node name="Sounds" type="Node2D" parent="." unique_id=824078369]
+
+[node name="Step" type="AudioStreamPlayer2D" parent="Sounds" unique_id=1055114468]
+stream = ExtResource("2_yfd5w")
+max_distance = 398.0
+script = ExtResource("3_1f2e0")
+metadata/_custom_type_script = "uid://cgrmypc6p11ta"
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="Sounds" unique_id=1307269285]
+stream = ExtResource("4_gomai")
+script = ExtResource("3_1f2e0")
+metadata/_custom_type_script = "uid://cgrmypc6p11ta"
 
 [node name="State Machine" type="Node" parent="." unique_id=1031572044]
 script = ExtResource("2_wtwwy")
@@ -541,6 +590,13 @@ metadata/_custom_type_script = "uid://c8yhemvmwbj0m"
 [node name="IdleState" type="Node" parent="State Machine" unique_id=1238493752]
 script = ExtResource("4_8s7tj")
 metadata/_custom_type_script = "uid://bgl55g52pj0s"
+
+[node name="WallState" type="Node" parent="State Machine" unique_id=753134338]
+script = ExtResource("5_ebg0e")
+metadata/_custom_type_script = "uid://bjsutqiosqi34"
+
+[node name="Movement" type="Node" parent="." unique_id=930654360]
+script = ExtResource("2_7j878")
 
 [node name="Body" type="Sprite2D" parent="." unique_id=732112986]
 texture = ExtResource("4_xmhtm")
@@ -566,7 +622,11 @@ shape = SubResource("CapsuleShape2D_mqqfp")
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_uvvjj")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1366201612]
-position = Vector2(0, -64)
+[node name="PlayerCamera" type="Camera2D" parent="." unique_id=1366201612]
+top_level = true
 script = ExtResource("78_atnsy")
+starting_offset = Vector2(0, -64)
 metadata/_custom_type_script = "uid://du1e6ur2gsuee"
+
+[node name="AudioListener2D" type="AudioListener2D" parent="PlayerCamera" unique_id=1402188863]
+current = true

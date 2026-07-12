@@ -19,6 +19,7 @@ func _ready() -> void:
 	# load map
 	var map: Map = instantiate_from_string("res://maps/"+map_name+".tscn")
 	map.get_spawns()
+	map.add_to_group("map")
 
 	# spawn player
 	var player: Player = instantiate_from_string("res://players/"+player_name+"/"+player_name+".tscn", false)

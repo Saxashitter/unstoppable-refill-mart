@@ -9,7 +9,7 @@ class_name IdleState
 
 @onready var animator: AnimationPlayer = $"../../Animator"
 @onready var movement: Movement = $"../../Movement"
-@onready var camera: PlayerCamera = $"../../Camera2D"
+@onready var camera: PlayerCamera = $"../../PlayerCamera"
 
 # run variables
 var tap_timer: float = 0
@@ -19,7 +19,6 @@ var running: bool = false
 
 # jump variables
 var jumped: bool = false
-
 
 func physics_process(player: Player, delta: float) -> void:
 	var direction: int = movement.input_direction()
@@ -31,7 +30,8 @@ func physics_process(player: Player, delta: float) -> void:
 	movement.apply_gravity(player, delta)
 	_handle_jump(player, direction)
 
-	_update_vertical_camera(player, delta)
+	if _handle_wall_state(player): return
+
 	_update_animation(player, direction)
 
 	player.move_and_slide()
@@ -45,30 +45,26 @@ func _update_tap_buffer(delta: float) -> void:
 		if tap_timer < 0:
 			tap_timer = 0
 
-
 ## Detects double-taps to start running, and detects when running should stop.
 func _update_run_state(player: Player, direction: int) -> void:
 	if direction != 0 and last_direction != direction:
 		if tap_timer > 0:
-			running = true
-			run_direction = direction
+			run(player, direction)
 		tap_timer = tap_buffer_time # so we can dashdance LOL
 
 	# if we released our movement key, dont run
 	var released_on_ground = player.is_on_floor() and direction != run_direction
 	var reversed_in_air = !player.is_on_floor() and direction == -run_direction
 	if (released_on_ground or reversed_in_air) and running:
-		print("no run")
+		camera.camera_offset.x = 0
 		running = false
 
 func _handle_horizontal_movement(player: Player, direction: int, delta: float) -> void:
 	if !running:
 		movement.apply_friction(player, delta)
-		camera.reset_horizontal(delta)
 		if direction != 0:
 			player.velocity.x = move_toward(player.velocity.x, walk_speed * direction, walk_acceleration * delta)
 	else:
-		camera.push_horizontal(direction, delta)
 		if player.is_on_floor():
 			player.velocity.x = run_speed * direction
 		else:
@@ -83,18 +79,34 @@ func _handle_jump(player: Player, direction: int) -> void:
 	if Input.is_action_just_pressed("jump") and player.is_on_floor():
 		if direction != 0:
 			player.set_facing(direction)
-		animator.speed_scale = 1
-		animator.play("jump")
-		player.velocity.y = -jump_power
-		jumped = true
+		jump(player)
 
 	if jumped and !Input.is_action_pressed("jump"):
 		jumped = false
 		if player.velocity.y < 0:
 			player.velocity.y = 0
 
-func _update_vertical_camera(player: Player, delta: float) -> void:
-	camera.follow_velocity_y(player.velocity.y, delta)
+func jump(player: Player):
+	animator.speed_scale = 1
+	animator.play("jump")
+	player.velocity.y = -jump_power
+	player.sounds.get_node("Jump").play_pitch_rng()
+	jumped = true
+
+func run(player: Player, direction: int):
+	camera.camera_offset.x = 100 * direction
+	running = true
+	run_direction = direction
+
+## Handles wall clinging...
+func _handle_wall_state(player: Player) -> bool:
+	if not player.is_on_wall(): return false
+	if player.is_on_floor(): return false
+
+	var wallState: WallState = states["WallState"]
+	wallState.wall_normal = player.get_wall_normal()
+	machine.set_state(wallState)
+	return true
 
 func _update_animation(player: Player, direction: int) -> void:
 	# grounded
@@ -108,10 +120,12 @@ func _update_animation(player: Player, direction: int) -> void:
 			if animator.current_animation != "idle": animator.play("idle")
 		elif speed > 0 and not running:
 			animator.speed_scale = (speed / walk_speed) * 2
-			if animator.current_animation != "walk": animator.play("walk")
+			if animator.current_animation != "walk":
+				animator.play("walk")
 		elif speed > 0 and running:
 			animator.speed_scale = (speed / walk_speed) * 1.25
-			if animator.current_animation != "run": animator.play("run")
+			if animator.current_animation != "run":
+				animator.play("run")
 
 	# air
 	if (player.velocity.y >= 0 or player.is_on_floor()) and animator.current_animation == "jump_loop":

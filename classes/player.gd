@@ -3,6 +3,8 @@ class_name Player
 
 var sprites: Array[Sprite2D]
 var colliders: Array[CollisionShape2D]
+@export var sounds: Node2D
+
 
 func _ready() -> void:
 	for child in get_children():

@@ -10,6 +10,7 @@ size = Vector2(12, 14)
 size = Vector2(8, 2)
 
 [node name="Goomba" type="CharacterBody2D" unique_id=155787538]
+process_mode = 4
 collision_layer = 4
 script = ExtResource("1_508vr")
 metadata/_custom_type_script = "uid://bgxw6tn2wdb8i"
@@ -35,5 +36,9 @@ target_position = Vector2(0, 26)
 [node name="RightEdge" type="RayCast2D" parent="." unique_id=1808344027]
 position = Vector2(8, -2)
 target_position = Vector2(0, 26)
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="." unique_id=791998769]
+position = Vector2(0, -10)
+rect = Rect2(-24, -22, 48, 56)
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_touch"]
