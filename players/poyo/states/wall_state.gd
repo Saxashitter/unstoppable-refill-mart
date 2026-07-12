@@ -52,7 +52,6 @@ func _handle_jump(player: Player) -> bool:
 
 	if movement.input_direction() == wall_direction:
 		idleState.run(player, wall_direction)
-		print("RUN!")
 
 	idleState.jump(player)
 	machine.set_state(idleState)

@@ -14,8 +14,6 @@ var _camera_boundary_position: Vector2 = Vector2(0, 0)
 
 var boundaries: Array[PlayerCameraBoundary] = []
 var last_boundary: PlayerCameraBoundary = null
-var boundary_lerp: float = 0
-
 func get_current_boundary() -> PlayerCameraBoundary:
 	if boundaries.is_empty():
 		return null
@@ -39,23 +37,21 @@ func _process(delta: float):
 	var target_position = get_player_position()
 	var current_boundary: PlayerCameraBoundary = get_current_boundary()
 	var in_boundary: bool = current_boundary != null
-	var was_in_boundary: bool = last_boundary != null
 
 	if not in_boundary:
-		boundary_lerp = max(boundary_lerp - delta, 0)
-		if was_in_boundary:
-			_camera_position = lerp(target_position, _camera_boundary_position, boundary_lerp)
-		else:
-			_camera_position = target_position
+		var parent: Player = get_parent()
+		_camera_position.x = target_position.x
+		if parent and (parent.is_on_floor() or parent.velocity.y > 0):
+			_camera_position.y = target_position.y
 		position = lerp(position, _camera_position, camera_lerp_speed)
 		zoom = lerp(zoom, _camera_zoom, camera_lerp_speed)
 	else:
 		last_boundary = current_boundary
-		boundary_lerp = min(boundary_lerp + delta, 1)
+
 		var rect: Rect2 = current_boundary.calc_rect
 		var new_zoom: Vector2 = _camera_zoom if current_boundary.containment_type == current_boundary.CAMSCALE_NONE else current_boundary.get_zoom()
 		_camera_boundary_position = target_position
 		_camera_boundary_position.x = clamp(_camera_boundary_position.x, rect.position.x, rect.position.x + rect.size.x)
 		_camera_boundary_position.y = clamp(_camera_boundary_position.y, rect.position.y, rect.position.y + rect.size.y)
-		position = lerp(position, lerp(_camera_position, _camera_boundary_position, boundary_lerp), camera_lerp_speed)
-		zoom = lerp(zoom, lerp(_camera_zoom, new_zoom, boundary_lerp), camera_lerp_speed)
+		position = lerp(position, _camera_boundary_position, camera_lerp_speed)
+		zoom = lerp(zoom, new_zoom, camera_lerp_speed)

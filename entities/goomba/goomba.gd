@@ -10,6 +10,22 @@ class_name Goomba
 @onready var left_edge: RayCast2D = $LeftEdge
 @onready var right_edge: RayCast2D = $RightEdge
 
+@onready var kill_timer: Timer = $"Timer"
+
+var in_death_anim: bool = false
+
+func on_died(source: Entity = null):
+	if in_death_anim: return
+	in_death_anim = true
+
+	scale.y /= 2
+	$Stomp.play()
+	velocity = Vector2.ZERO
+	kill_timer.start(0.5)
+	kill_timer.timeout.connect(func():
+		queue_free()
+	)
+
 func move_goomba(_facing: int = facing, _speed: float = speed):
 	sprite.flip_h = _facing == 1
 	velocity.x = speed * _facing
@@ -38,7 +54,7 @@ func _on_hurtbox_touch(area: Area2D) -> void:
 
 	if player.velocity.y < 0: return
 	if player.is_on_floor(): return
+	if in_death_anim: return
 
 	player.velocity.y *= -1
 	hurt()
-	print("ow!")

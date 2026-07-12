@@ -563,6 +563,7 @@ height = 34.0
 size = Vector2(19.75, 4)
 
 [node name="Player" type="CharacterBody2D" unique_id=383802847 node_paths=PackedStringArray("sounds")]
+z_index = 2
 collision_layer = 2
 floor_constant_speed = true
 floor_snap_length = 8.0

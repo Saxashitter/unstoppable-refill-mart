@@ -11,4 +11,4 @@ func _ready() -> void:
 		visual.position = polygon.position
 		visual.polygon = polygon.polygon
 		# visual.polygons = polygon.polygons
-		add_child(visual)
+		$Visuals.add_child(visual)

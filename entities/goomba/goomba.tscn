@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dg33ufoi8h4uj" path="res://entities/goomba/goomba.gd" id="1_508vr"]
 [ext_resource type="Texture2D" uid="uid://bm2qnxhiig7gs" path="res://entities/goomba/animation/goomba1.png" id="1_svjv5"]
+[ext_resource type="AudioStream" uid="uid://cousvt32sxjxj" path="res://sounds/goomba/kick1.wav" id="3_wex8t"]
+[ext_resource type="Script" uid="uid://cgrmypc6p11ta" path="res://classes/sound.gd" id="4_elg10"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_508vr"]
 size = Vector2(12, 14)
@@ -40,5 +42,13 @@ target_position = Vector2(0, 26)
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="." unique_id=791998769]
 position = Vector2(0, -10)
 rect = Rect2(-24, -22, 48, 56)
+
+[node name="Timer" type="Timer" parent="." unique_id=1540169502]
+
+[node name="Stomp" type="AudioStreamPlayer2D" parent="." unique_id=2050437726]
+z_index = 1
+stream = ExtResource("3_wex8t")
+script = ExtResource("4_elg10")
+metadata/_custom_type_script = "uid://cgrmypc6p11ta"
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_touch"]

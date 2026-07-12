@@ -47,9 +47,9 @@ func _player_entered(player: Player):
 	var camera: PlayerCamera = player.get_node("PlayerCamera")
 	if !camera: return
 	if camera.boundaries.has(self): return
+	print(containment_type)
 
 	camera.boundaries.append(self)
-	camera.boundary_lerp = 0
 	camera._camera_position = camera.position
 
 func _player_exited(player: Player):
@@ -58,6 +58,5 @@ func _player_exited(player: Player):
 	if !camera.boundaries.has(self): return
 
 	if camera.boundaries[camera.boundaries.size() - 1] == self:
-		camera.boundary_lerp = 1
 		camera._camera_boundary_position = camera.position
 	camera.boundaries.erase(self)

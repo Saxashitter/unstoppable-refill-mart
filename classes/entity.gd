@@ -5,8 +5,8 @@ class_name Entity
 
 var health = 1
 
-signal damaged
-signal died
+func on_died(source: Entity = null): pass
+func on_damaged(damage: int = 1, source: Entity = null): pass
 
 func hurt(damage: int = 1, source: Entity = null):
 	health -= damage
@@ -16,8 +16,8 @@ func hurt(damage: int = 1, source: Entity = null):
 		die(source)
 		return
 
-	damaged.emit(damage, source)
+	on_damaged(damage)
 
 func die(source: Entity = null):
-	died.emit(source)
-	queue_free()
+	print("died....")
+	on_died(source)

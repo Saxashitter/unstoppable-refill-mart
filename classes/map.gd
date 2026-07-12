@@ -4,9 +4,11 @@ class_name Map
 # the spawn points for objects in the map...
 var spawns: Dictionary[String, Array] = {}
 
+@export var music: AudioStreamPlayer
+
 func get_spawns() -> void:
 	var spawns_node = get_node("Spawns")
-	print("running...")
+
 	# get all spawnpoints
 	for child in spawns_node.get_children(true):
 		if child is Spawn:
