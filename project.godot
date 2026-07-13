@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Platformer Test"
 config/version="0"
-run/main_scene="uid://bjlutor8d51na"
+run/main_scene="uid://bxk48qwwwl306"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 

@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://c0f3ujfjonwbe"]
+
+[ext_resource type="Script" uid="uid://btmw01u4jtw5m" path="res://code/backend/Entity/script.gd" id="1_6ut1m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
+size = Vector2(32, 32)
+
+[node name="Entity" type="CharacterBody2D" unique_id=1083869228]
+script = ExtResource("1_6ut1m")
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=1021608691]
+position = Vector2(0, -16)
+shape = SubResource("RectangleShape2D_g4v7s")
