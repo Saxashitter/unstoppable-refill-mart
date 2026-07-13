@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://j8mwegik5ina"]
+
+[ext_resource type="PackedScene" uid="uid://dex02dop6m3o" path="res://code/backend/Player/scene.tscn" id="1_naqs2"]
+[ext_resource type="Script" uid="uid://phs5qasvhdmo" path="res://code/backend/input/PlayerInputAnalogAction/script.gd" id="2_56sx4"]
+[ext_resource type="Script" uid="uid://cdg8dissg4uky" path="res://code/backend/animation/SpriteAnimator/script.gd" id="2_am0oc"]
+[ext_resource type="Script" uid="uid://cj44dw4dv3qdv" path="res://code/backend/animation/SpriteAnimation/script.gd" id="3_hqvij"]
+[ext_resource type="Script" uid="uid://bxb10h2u1r6g2" path="res://code/backend/input/PlayerInputAction/script.gd" id="3_u157v"]
+[ext_resource type="Script" uid="uid://bwautvgvgwny8" path="res://code/backend/states/StateMachine/script.gd" id="4_hqvij"]
+[ext_resource type="Script" uid="uid://b01877es3j14t" path="res://code/players/Poyo/states/base.gd" id="5_hqvij"]
+
+[node name="Poyo" unique_id=1083869228 node_paths=PackedStringArray("input", "sprite", "collider") instance=ExtResource("1_naqs2")]
+z_index = 1
+input = NodePath("Input")
+sprite = NodePath("Sprite")
+collider = NodePath("Collider")
+front_facing = -1
+
+[node name="Move" type="Node" parent="Input" parent_id_path=PackedInt32Array(585101029) index="0" unique_id=1355906713]
+script = ExtResource("2_56sx4")
+secondary_action_name = &"right"
+action_name = &"left"
+metadata/_custom_type_script = "uid://phs5qasvhdmo"
+
+[node name="Jump" type="Node" parent="Input" parent_id_path=PackedInt32Array(585101029) index="1" unique_id=1274422706]
+script = ExtResource("3_u157v")
+action_name = &"jump"
+metadata/_custom_type_script = "uid://bxb10h2u1r6g2"
+
+[node name="Sprint" type="Node" parent="Input" parent_id_path=PackedInt32Array(585101029) index="2" unique_id=129037800]
+script = ExtResource("3_u157v")
+action_name = &"sprint"
+metadata/_custom_type_script = "uid://bxb10h2u1r6g2"
+
+[node name="StateMachine" type="Node" parent="." index="3" unique_id=387687362]
+script = ExtResource("4_hqvij")
+metadata/_custom_type_script = "uid://bwautvgvgwny8"
+
+[node name="Base" type="Node" parent="StateMachine" index="0" unique_id=288539401]
+script = ExtResource("5_hqvij")
+metadata/_custom_type_script = "uid://cwj7u5t5ltdym"
+
+[node name="BodyAnimator" type="Node" parent="." index="4" unique_id=1385748109 node_paths=PackedStringArray("sprite")]
+script = ExtResource("2_am0oc")
+animation_path = "res://assets/characters/poyo/Body"
+sprite = NodePath("../Sprite")
+metadata/_custom_type_script = "uid://cdg8dissg4uky"
+
+[node name="Idle" type="Node" parent="BodyAnimator" index="0" unique_id=79030749]
+script = ExtResource("3_hqvij")
+framerate = 8.0
+loop = null
+loop_frame = null
+speed = null
+metadata/_custom_type_script = "uid://cj44dw4dv3qdv"
+
+[node name="Walking" type="Node" parent="BodyAnimator" index="1" unique_id=1832253341]
+script = ExtResource("3_hqvij")
+framerate = 12.0
+loop = null
+loop_frame = null
+speed = null
+metadata/_custom_type_script = "uid://cj44dw4dv3qdv"

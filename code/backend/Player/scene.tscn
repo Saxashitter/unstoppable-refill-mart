@@ -3,8 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://c0f3ujfjonwbe" path="res://code/backend/Entity/scene.tscn" id="1_785ra"]
 [ext_resource type="Script" uid="uid://cykry20okudmv" path="res://code/backend/Player/script.gd" id="2_3w4sn"]
 [ext_resource type="Texture2D" uid="uid://bllhgdovmoh7y" path="res://assets/characters/poyo/Body/Idle/0.png" id="3_6tysm"]
-[ext_resource type="Script" uid="uid://cdg8dissg4uky" path="res://code/backend/animation/SpriteAnimator/script.gd" id="4_urlhu"]
-[ext_resource type="Script" uid="uid://cj44dw4dv3qdv" path="res://code/backend/animation/SpriteAnimation/script.gd" id="5_p6qwr"]
+[ext_resource type="Script" uid="uid://btpi3cc5vl5f6" path="res://code/backend/input/PlayerInput/script.gd" id="4_urlhu"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6ut1m"]
 radius = 8.0
@@ -12,6 +11,7 @@ height = 36.0
 
 [node name="Player" unique_id=1083869228 instance=ExtResource("1_785ra")]
 script = ExtResource("2_3w4sn")
+direction = 1
 
 [node name="Collider" parent="." index="0" unique_id=1021608691]
 position = Vector2(0, -18)
@@ -21,18 +21,5 @@ shape = SubResource("CapsuleShape2D_6ut1m")
 texture = ExtResource("3_6tysm")
 offset = Vector2(0, -25)
 
-[node name="BodyAnimator" type="Node" parent="." index="2" unique_id=1592794135 node_paths=PackedStringArray("sprite")]
+[node name="Input" type="Node" parent="." index="2" unique_id=585101029]
 script = ExtResource("4_urlhu")
-animation_path = "res://assets/characters/poyo/Body"
-sprite = NodePath("../Sprite")
-metadata/_custom_type_script = "uid://cdg8dissg4uky"
-
-[node name="Idle" type="Node" parent="BodyAnimator" index="0" unique_id=1656284130]
-script = ExtResource("5_p6qwr")
-framerate = 8.0
-metadata/_custom_type_script = "uid://cj44dw4dv3qdv"
-
-[node name="Walking" type="Node" parent="BodyAnimator" index="1" unique_id=26175344]
-script = ExtResource("5_p6qwr")
-framerate = 12.0
-metadata/_custom_type_script = "uid://cj44dw4dv3qdv"

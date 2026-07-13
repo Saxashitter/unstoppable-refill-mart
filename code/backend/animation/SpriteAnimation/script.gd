@@ -7,6 +7,7 @@ class_name SpriteAnimation
 @export var loop: bool = true
 @export var loop_frame: int = 0
 @export var speed: float = 1
+@export var offset: Vector2 = Vector2.ZERO
 
 @onready var sprites: Array[Texture2D]
 

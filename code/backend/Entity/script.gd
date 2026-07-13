@@ -1,8 +1,7 @@
 extends CharacterBody2D
+class_name Entity
 
-func _physics_process(delta: float) -> void:
+func gravity(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-
-	move_and_slide()

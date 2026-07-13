@@ -22,7 +22,10 @@ func play(name: String = ""):
 	if _animations[name] == null: return
 
 	var animation: SpriteAnimation = _animations[name]
+
+	sprite.offset = _sprite_offset + animation.offset
 	sprite.texture = animation.sprites[0]
+
 	current_frame = 0
 	current_elapsed = 0
 	_max_frames = animation.sprites.size() - 1

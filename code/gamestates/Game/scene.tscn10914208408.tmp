@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bxk48qwwwl306"]
+
+[ext_resource type="PackedScene" uid="uid://j8mwegik5ina" path="res://code/players/Poyo/scene.tscn" id="1_do8x7"]
+[ext_resource type="PackedScene" uid="uid://rrh1be471jni" path="res://code/maps/TestMap/scene.tscn" id="2_mf17u"]
+
+[node name="Game" type="Node2D" unique_id=517041710]
+
+[node name="Poyo" parent="." unique_id=1083869228 instance=ExtResource("1_do8x7")]
+position = Vector2(64, 184)
+
+[node name="TestMap" parent="." unique_id=126531298 instance=ExtResource("2_mf17u")]

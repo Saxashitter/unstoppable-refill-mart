@@ -1,22 +1,13 @@
-extends "res://code/backend/Entity/script.gd"
+extends Entity
+class_name Player
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+@export var input: PlayerInput
+@export var sprite: Sprite2D
+@export var collider: CollisionShape2D
 
-func _physics_process(delta: float) -> void:
-	# Add the gravity.
-	# super(delta)
-
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis("ui_left", "ui_right")
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-
-	move_and_slide()
+@export var front_facing: int = -1
+@export var direction: int = 1:
+	set(value):
+		if not sprite: return
+		sprite.flip_h = value == -front_facing
+		direction = value

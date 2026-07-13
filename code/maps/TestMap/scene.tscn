@@ -1,0 +1,10 @@
+[gd_scene format=4 uid="uid://rrh1be471jni"]
+
+[ext_resource type="PackedScene" uid="uid://bfb4yhd0sgwrl" path="res://code/backend/Map/scene.tscn" id="1_bt73n"]
+[ext_resource type="TileSet" uid="uid://dni53vq0rtr2h" path="res://assets/tilesets/city/city.tres" id="2_f4vt6"]
+
+[node name="TestMap" unique_id=126531298 instance=ExtResource("1_bt73n")]
+
+[node name="TileMapLayer" parent="." index="0" unique_id=1495100026]
+tile_map_data = PackedByteArray("AAAAAAsAAAABAAEAAAABAAsAAAABAAEAAAACAAsAAAABAAEAAAADAAsAAAABAAEAAAAEAAsAAAABAAEAAAAFAAsAAAABAAEAAAAGAAsAAAABAAEAAAAHAAsAAAABAAEAAAAIAAsAAAABAAEAAAAJAAsAAAABAAEAAAAKAAsAAAABAAEAAAALAAsAAAABAAEAAAAMAAsAAAABAAEAAAANAAsAAAABAAEAAAAOAAsAAAABAAEAAAAPAAsAAAABAAEAAAAQAAsAAAABAAEAAAARAAsAAAABAAEAAAASAAsAAAABAAEAAAATAAsAAAABAAEAAAAUAAsAAAABAAEAAAAVAAsAAAABAAEAAAAWAAsAAAABAAEAAAAXAAsAAAABAAEAAAAYAAsAAAABAAEAAAA=")
+tile_set = ExtResource("2_f4vt6")
