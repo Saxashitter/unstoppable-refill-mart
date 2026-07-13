@@ -6,3 +6,9 @@
 script = ExtResource("1_yqjtg")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=1799898617]
+
+[node name="Label" type="Label" parent="HUD" unique_id=305021736]
+offset_right = 235.0
+offset_bottom = 23.0
+scale = Vector2(0.5, 0.5)
+text = "press f1 to return to the menu"

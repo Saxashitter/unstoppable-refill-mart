@@ -5,6 +5,7 @@ class_name Map
 var spawns: Dictionary[String, Array] = {}
 
 @export var music: AudioStreamPlayer
+@export var modulation: Color = Color.WHITE
 
 func get_spawns() -> void:
 	var spawns_node = get_node("Spawns")

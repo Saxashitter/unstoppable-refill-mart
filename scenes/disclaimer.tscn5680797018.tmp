@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bjlutor8d51na"]
+
+[ext_resource type="Script" uid="uid://ckwsqw1x53hvx" path="res://scenes/disclaimer.gd" id="1_ph5s3"]
+
+[node name="Disclaimer" type="Node2D" unique_id=842561937]
+script = ExtResource("1_ph5s3")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1723447236]
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(0, 0, 400, 0, 400, 224, 0, 224)
+
+[node name="Label" type="Label" parent="." unique_id=1282664502]
+offset_left = 56.0
+offset_top = 88.0
+offset_right = 453.0
+offset_bottom = 163.0
+scale = Vector2(0.75, 0.75)
+text = "WARNING!
+This game is a PROTOTYPE!
+As such, absolutely EVERYTHING is going to change!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="." unique_id=1147443005]
+wait_time = 0.25
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

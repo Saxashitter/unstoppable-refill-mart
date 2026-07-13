@@ -19,7 +19,16 @@ func _ready() -> void:
 	# load map
 	var map: Map = instantiate_from_string("res://maps/"+map_name+".tscn")
 	map.get_spawns()
-	# map.music.play()
+	map.music.play()
+
+	# iterate through enemies and colas and set stuff
+	for child in map.get_node("Colas").get_children():
+		if child is not Entity: continue
+		child.modulate = map.modulation
+	for child in map.get_node("Enemies").get_children():
+		if child is not Entity: continue
+		child.modulate = map.modulation
+
 	# spawn player
 	var player: Player = instantiate_from_string("res://players/"+player_name+"/"+player_name+".tscn", false)
 
@@ -31,11 +40,19 @@ func _ready() -> void:
 		player.position = player_spawn.position
 	else:
 		print("Aaaww..")
-	
+
+	player.modulate = map.modulation
 	add_child(player)
 	pass
 
+var exiting: bool = false
+func _input(event: InputEvent):
+	if not event is InputEventKey: return
+	if event.keycode != KEY_F1: return
+	if exiting: return
+	exiting = true
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+	var game_class: PackedScene = load("res://scenes/menu.tscn")
+	var game := game_class.instantiate()
+
+	get_tree().change_scene_to_node(game)
