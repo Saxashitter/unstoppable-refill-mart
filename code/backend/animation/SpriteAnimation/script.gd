@@ -1,46 +1,39 @@
+@tool
 extends Node
 class_name SpriteAnimation
-
 ## Animation metadata for SpriteAnimator
-
 @export var framerate: float = 24
 @export var loop: bool = true
 @export var loop_frame: int = 0
 @export var speed: float = 1
 @export var offset: Vector2 = Vector2.ZERO
-
-@onready var sprites: Array[Texture2D]
-
+@onready var sprites: Array[Array] = []
+# each element is an Array[Texture2D] — one per entry (overlay layer)
 signal played(old_animation: SpriteAnimation)
 signal swapped(new_animation: SpriteAnimation)
 signal stopped
 signal looped
 signal finished
-signal new_frame
+signal new_frame(frame: int)
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	# does this folder exist? if so, do some silly animation stuff
 	var parent: SpriteAnimator = get_parent()
-	var path: String = parent.animation_path + "/" + name
-	var dir: DirAccess = DirAccess.open(path)
+	for entry in parent.entries:
+		var layer_frames: Array[Texture2D] = []
+		var path: String = entry.path + "/" + name
+		var dir: DirAccess = DirAccess.open(path)
+		if !dir:
+			print("...There's no folder for this. Whoops. (%s)" % path)
+			sprites.append(layer_frames)
+			continue
+		var i: int = 0
+		while dir.file_exists(str(i) + ".png"):
+			var image := Image.load_from_file(path + "/" + str(i) + ".png")
+			var texture := ImageTexture.create_from_image(image)
+			print("Loaded! " + str(i))
+			layer_frames.append(texture)
+			i += 1
+		sprites.append(layer_frames)
 
-	if !dir:
-		print("...There's no folder for this. Whoops.")
-		return
-
-	dir.list_dir_begin()
-
-	var file_name = dir.get_next()
-	while file_name != "":
-		if not dir.current_is_dir() and file_name.ends_with(".png"):
-			var image = Image.load_from_file(path + "/" + file_name)
-			var texture = ImageTexture.create_from_image(image)
-			print("Loaded! " + path + "/" + file_name)
-			sprites.append(texture)
-
-		file_name = dir.get_next()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass

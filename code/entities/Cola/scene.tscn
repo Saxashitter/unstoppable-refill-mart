@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://b4251cvjwp3pu"]
+
+[ext_resource type="PackedScene" uid="uid://c0f3ujfjonwbe" path="res://code/backend/Entity/scene.tscn" id="1_okf0h"]
+[ext_resource type="Texture2D" uid="uid://dyb435k80sjcw" path="res://assets/entities/cola/cola.png" id="2_lurah"]
+[ext_resource type="Script" uid="uid://uruaa7k28dr6" path="res://code/entities/Cola/script.gd" id="2_to0qx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_to0qx"]
+size = Vector2(10, 10)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_to0qx"]
+radius = 12.0415945
+
+[node name="Entity" unique_id=1083869228 instance=ExtResource("1_okf0h")]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("2_to0qx")
+
+[node name="Collider" parent="." index="0" unique_id=1021608691]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_to0qx")
+
+[node name="PlayerDetector" type="Area2D" parent="." index="1" unique_id=1160317162]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector" index="0" unique_id=806278157]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_to0qx")
+debug_color = Color(0.96895665, 0, 0.46760666, 0.41960785)
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="2" unique_id=1107378423]
+position = Vector2(0, -5)
+texture = ExtResource("2_lurah")
+
+[connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_collect"]

@@ -1,6 +1,8 @@
 extends Node
 class_name StateMachine
 
+@export var target: Node2D
+
 var states: Dictionary[String, State]
 var current_state: State
 
@@ -9,7 +11,6 @@ func set_state(state: State):
 		current_state.exit()
 
 	current_state = state
-	print("stuff")
 	state.enter()
 
 func set_state_by_name(state_name: String):
@@ -24,9 +25,9 @@ func _ready() -> void:
 	for state in get_children():
 		if state is not State: continue
 
-		print("found state")
+		state.machine = self
 		state.states = states
-		state.target = get_parent()
+		state.target = target
 		states[state.name] = state
 
 	var first_state: State = get_child(0)

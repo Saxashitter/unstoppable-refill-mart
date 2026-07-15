@@ -22,6 +22,8 @@ enum InputAnalogYAxisState {
 
 var strength: float = 0.0
 var direction: int = 0 # cast to InputAnalogXAxisState or InputAnalogYAxisState based on `axis`
+var _direction: int = direction
+var reversed: bool = false
 
 func update() -> void:
 	var raw_strength: float = Input.get_axis(action_name, secondary_action_name)
@@ -30,11 +32,16 @@ func update() -> void:
 		raw_strength = 0.0
 
 	strength = raw_strength
+	_direction = direction
 	direction = int(signf(raw_strength))
+	reversed = direction != 0 and direction == -_direction
 
 	var down: bool = raw_strength != 0.0
 	if not down:
-		state = InputState.RELEASED
+		if state != InputState.RELEASED and state != InputState.JUST_RELEASED:
+			state = InputState.JUST_RELEASED
+		elif state == InputState.JUST_RELEASED:
+			state = InputState.RELEASED
 	elif state == InputState.RELEASED:
 		state = InputState.PRESSED
 	else:

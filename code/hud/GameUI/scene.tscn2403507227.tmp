@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cbu3xmmglfqj4"]
+
+[ext_resource type="Script" uid="uid://dr5afr78i4nnm" path="res://code/hud/GameUI/script.gd" id="1_ur3pr"]
+[ext_resource type="FontFile" uid="uid://bt8n8fkypgdv" path="res://assets/fonts/PeaberryBase.ttf" id="2_ybufx"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ur3pr"]
+font = ExtResource("2_ybufx")
+
+[node name="GameUI" type="Node2D" unique_id=1145063088]
+script = ExtResource("1_ur3pr")
+
+[node name="Colas" type="Label" parent="." unique_id=2031629239]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Colas: "
+label_settings = SubResource("LabelSettings_ur3pr")
