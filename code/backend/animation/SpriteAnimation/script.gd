@@ -27,10 +27,8 @@ func _ready() -> void:
 			sprites.append(layer_frames)
 			continue
 		var i: int = 0
-		while dir.file_exists(str(i) + ".png"):
-			var image := Image.load_from_file(path + "/" + str(i) + ".png")
-			var texture := ImageTexture.create_from_image(image)
-			print("Loaded! " + str(i))
+		while ResourceLoader.exists(path + "/" + str(i) + ".png"):
+			var texture: Texture2D = load(path + "/" + str(i) + ".png")
 			layer_frames.append(texture)
 			i += 1
 		sprites.append(layer_frames)

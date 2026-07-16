@@ -17,12 +17,8 @@ class_name PlayerCamera
 
 		queue_redraw()
 @export var camera_position: Vector2 = Vector2.ZERO # relative to player
-@export var camera_offset: Vector2 = Vector2.ZERO
-@export var camera_lerp_speed: float = 0.08 * 2
 
 @onready var state_machine: StateMachine = $StateMachine
-
-var _camera_position: Vector2 = Vector2.ZERO
 
 func get_target_position_of_camera() -> Vector2:
 	var parent: Player = get_parent()
@@ -33,9 +29,7 @@ func get_target_position_of_camera() -> Vector2:
 func _ready() -> void:
 	if Engine.is_editor_hint(): return
 	top_level = true
-
-	_camera_position = get_target_position_of_camera()
-	position = _camera_position + camera_offset
+	position = get_target_position_of_camera()
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint(): return

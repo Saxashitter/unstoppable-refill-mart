@@ -1,7 +1,6 @@
 extends Entity
 class_name Player
 
-@export var input: PlayerInput
 @export var sprite: Sprite2D
 @export var collider: CollisionShape2D
 

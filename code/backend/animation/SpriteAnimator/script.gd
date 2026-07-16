@@ -61,19 +61,26 @@ func _apply_frame(animation: SpriteAnimation, frame: int) -> void:
 	for k in range(_sprites.size()):
 		var s: Sprite2D = _sprites[k]
 		if not s: continue
+
 		var layer: Array = animation.sprites[k]
 		if frame < layer.size():
 			s.texture = layer[frame]
+			s.visible = true
+		else:
+			s.visible = false
+
 	animation.new_frame.emit(current_frame)
 
 # Play a valid animation
 func play(name: String = "") -> void:
 	if not _animations.has(name): return
 	var animation: SpriteAnimation = _animations[name]
+
 	for k in range(_sprites.size()):
 		var s: Sprite2D = _sprites[k]
 		if not s: continue
 		s.offset = _sprite_offsets[k] + animation.offset
+
 	current_frame = 0
 	current_elapsed = 0
 	_max_frames = _frame_count(animation) - 1

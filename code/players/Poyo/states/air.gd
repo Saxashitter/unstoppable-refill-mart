@@ -3,10 +3,12 @@ extends State
 @export var speed: float = 150
 @export var acceleration: float = 600
 @export var deceleration: float = 200
-@export var jump_height: float = 380
+@export var jump_height: float = 420
 
 @export var sound: AudioStreamPlayer2D
 @export var pitch_range = Vector2.ONE
+
+@export var leniency_manager: LeniencyManager
 
 var jumped: bool = false # if true, the player goes into their jump animation upon entering the state. otherwise, the fall animation
 var _jumped: bool = false # this is to keep our knowledge lmfao
@@ -22,6 +24,7 @@ func enter():
 
 		sound.pitch_scale = pitch_range.x + (randf() * (pitch_range.y - pitch_range.x))
 		sound.play()
+		leniency_manager.reset()
 	else:
 		_jumped = false
 		_halved_jump = false
@@ -37,17 +40,14 @@ func physics_process(delta: float) -> void:
 	target.gravity(delta)
 	target.move_and_slide()
 	if _handle_grounded(): return
-	base_state._update_jump_leniency(delta)
+	leniency_manager.update(delta)
 
 func _handle_horizontal_movement(delta: float) -> void:
 	var input: PlayerInput = target.input
 	var move: PlayerInputAnalogAction = input.get_input("Move")
-	var jump: PlayerInputAction = input.get_input("Jump")
 
-	var velocity_direction: int = int(signf(target.velocity.x))
 	var target_speed: float = speed * move.strength
 	var step: float = acceleration
-	var base_state: State = states["Walk"]
 
 	if not move.is_down():
 		step = deceleration
@@ -61,7 +61,8 @@ func _handle_jump() -> bool:
 		)
 
 	# handle anim
-	if target.animator.current_animation.name == "Jump" and target.velocity.y >= 0:
+	var anim_name: String = target.animator.current_animation.name
+	if (anim_name == "Jump" or anim_name == "Spinjump") and target.velocity.y >= 0:
 		target.animator.play("Fall")
 
 	if _halved_jump: return false
@@ -87,7 +88,7 @@ func _handle_grounded() -> bool:
 				target.animator.play("Idle")
 
 		if state == states["Run"]:
-			state.dash_on_start = false
+			state._dash_on_start = false
 
 		var direction: int = int(signf(target.velocity.x))
 		if direction == 0:
@@ -105,6 +106,6 @@ func could():
 	var jump: PlayerInputAction = input.get_input("Jump")
 
 	if not jump.is_pressed(): return false
-	if base_state._jump_leniency == 0: print("no"); return false
+	if not leniency_manager.can_jump(): print("no"); return false
 
 	return true

@@ -1,9 +1,11 @@
 extends Player
 
-@onready var state_machine: StateMachine = $StateMachine
-@onready var animator: SpriteAnimator = $BodyAnimator
+@onready var state_machine: StateMachine = $Scripts/StateMachine
+@onready var animator: SpriteAnimator = $Animator
 @onready var camera: PlayerCamera = $PlayerCamera
 @onready var face: Sprite2D = $Face
+@onready var input: PlayerInput = $Scripts/Input
+@onready var sounds: Node2D = $Sounds
 
 func _set_direction(direction: int):
 	super(direction)

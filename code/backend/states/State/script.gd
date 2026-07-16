@@ -14,7 +14,6 @@ func could() -> bool: return true
 func safe_set(on_set: Callable = func(): pass) -> bool:
 	if not could(): return false
 
-	print("yep")
 	on_set.call()
 	machine.set_state(self)
 	return true
