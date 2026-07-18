@@ -10,7 +10,7 @@ func enter():
 	var player: Player = target
 	var animator: AnimationPlayer = player.animator
 
-	animator.play("grind")
+	player.play_animation("grind")
 	player.velocity.y = 0
 
 func physics_process(delta: float):

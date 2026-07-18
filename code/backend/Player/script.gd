@@ -25,5 +25,6 @@ func collect_cola(cola: Entity):
 func _ready() -> void:
 	_set_direction(direction)
 
+func _enter_tree() -> void:
 	if multiplayer.has_multiplayer_peer():
 		set_multiplayer_authority(int(name))

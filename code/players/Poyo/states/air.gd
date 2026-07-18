@@ -8,8 +8,7 @@ func enter():
 	var player: Player = target
 	var animator: AnimationPlayer = player.animator
 
-	animator.speed_scale = 1
-	animator.play("fall_loop")
+	player.play_animation("fall_loop")
 	#player.animator.play("Fall")
 	#player.animator.current_frame = player.animator.current_animation.loop_frame
 

@@ -18,8 +18,7 @@ func enter():
 
 	player.velocity.y = -jump_height
 
-	animator.speed_scale = 1
-	animator.play("jump")
+	player.play_animation("jump")
 
 	leniency_manager.reset()
 
@@ -35,8 +34,7 @@ func jump_descent():
 
 	jump_descending = true
 
-	animator.speed_scale = 1
-	animator.play("fall")
+	player.play_animation("fall")
 
 func physics_process(delta: float) -> void:
 	var player: Player = target

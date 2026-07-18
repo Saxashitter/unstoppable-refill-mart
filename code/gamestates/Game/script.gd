@@ -16,6 +16,11 @@ func on_peer_disconnected(pid: int):
 	if players.has_node(str(pid)):
 		players.remove_child(players.get_node(str(pid)))
 
+func await_client_player(player: Player):
+	if player is not Player: return
+	if player.name == str(multiplayer.get_unique_id()):
+		initalize_client_player(player)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var map_scene: PackedScene = load("res://code/maps/" + map_name + "/scene.tscn")
@@ -39,6 +44,7 @@ func _ready() -> void:
 		else:
 			multiplayer.server_disconnected.connect(func():
 				get_tree().change_scene_to_file("res://code/gamestates/MultiplayerMenu/scene.tscn"))
+			players.child_entered_tree.connect(await_client_player)
 
 	#map.get_node("Music").play()
 

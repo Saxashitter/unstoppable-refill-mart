@@ -12,7 +12,7 @@ func enter():
 	var player: Player = target
 	var animator: AnimationPlayer = player.animator
 
-	animator.play("skid")
+	player.play_animation("skid")
 	dash_state.enable_rail_grinding(false)
 
 func physics_process(delta: float) -> void:
@@ -35,7 +35,6 @@ func horizontal_movement(delta: float) -> void:
 
 		machine.set_state(jump_state)
 
-		player.animator.play("Spinjump")
 		jump_state.jump_descending = true
 		jump_state.jump_height = _jump_height
 

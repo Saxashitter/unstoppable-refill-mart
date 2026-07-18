@@ -39,7 +39,7 @@ func enter():
 	var player: Player = target
 	player.camera.state_machine.set_state_by_name("Run")
 
-	if dash_on_start and abs(player.velocity.x) < speed:
+	if dash_on_start and abs(player.velocity.x) <= speed:
 		player.velocity.x = speed * player.direction
 		dash_dance_time = dash_dance_leniency
 	else:
@@ -93,8 +93,8 @@ func handle_dash(delta: float) -> bool:
 
 		if move.is_pressed() and move.direction == direction and old_speed >= _speed:
 			if type == DashType.SPEEDUP:
-				animator.play("RESET")
-				animator.play("skating")
+				player.play_animation("RESET")
+				player.play_animation("skating")
 			speed = min(speed + buffer_add, max_speed)
 			player.velocity.x = speed * direction
 
@@ -134,15 +134,13 @@ func set_dash_type(new_type: DashType = type):
 	match new_type:
 		DashType.RUN:
 			enable_rail_grinding(false)
-			animator.play("run")
+			player.play_animation("run")
 		DashType.SPEEDUP:
 			enable_rail_grinding(true)
-			animator.speed_scale = 1
-			animator.play("skating")
+			player.play_animation("skating")
 		DashType.SKATE:
 			enable_rail_grinding(true)
-			animator.speed_scale = 1
-			animator.play("skate")
+			player.play_animation("skate")
 
 	type = new_type
 

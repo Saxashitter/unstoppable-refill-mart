@@ -17,10 +17,9 @@ func enter():
 	player.camera.state_machine.set_state_by_name("Base")
 
 	if player.velocity.x != 0:
-		animator.play("walk")
+		player.play_animation("walk")
 	else:
-		animator.speed_scale = 1
-		animator.play("idle")
+		player.play_animation("idle")
 
 	super()
 
@@ -55,11 +54,10 @@ func start(new_direction: int = 1):
 	var player: Player = target
 	var animator: AnimationPlayer = player.animator
 
-	animator.play("walk")
+	player.play_animation("walk")
 
 func stop():
 	var player: Player = target
 	var animator: AnimationPlayer = player.animator
 
-	animator.speed_scale = 1
-	animator.play("idle")
+	player.play_animation("idle")
