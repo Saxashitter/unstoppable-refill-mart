@@ -33,6 +33,8 @@ func _ready() -> void:
 		ui.colas_counter = player.colas
 	)
 
+	#map.get_node("Music").play()
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass

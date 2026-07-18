@@ -1,0 +1,195 @@
+[gd_scene format=3 uid="uid://j8mwegik5ina"]
+
+[ext_resource type="PackedScene" uid="uid://dex02dop6m3o" path="res://code/backend/Player/scene.tscn" id="1_naqs2"]
+[ext_resource type="Script" uid="uid://phs5qasvhdmo" path="res://code/backend/input/PlayerInputAnalogAction/script.gd" id="2_56sx4"]
+[ext_resource type="Script" uid="uid://cdg8dissg4uky" path="res://code/backend/animation/SpriteAnimator/script.gd" id="2_am0oc"]
+[ext_resource type="Script" uid="uid://dm6v3upsugsog" path="res://code/players/Poyo/script.gd" id="2_cty5n"]
+[ext_resource type="Script" uid="uid://cj44dw4dv3qdv" path="res://code/backend/animation/SpriteAnimation/script.gd" id="3_hqvij"]
+[ext_resource type="Script" uid="uid://bxb10h2u1r6g2" path="res://code/backend/input/PlayerInputAction/script.gd" id="3_u157v"]
+[ext_resource type="Script" uid="uid://bwautvgvgwny8" path="res://code/backend/states/StateMachine/script.gd" id="4_hqvij"]
+[ext_resource type="AudioStream" uid="uid://dgvr4yojistn7" path="res://assets/characters/poyo/sounds/footstep.wav" id="5_bv341"]
+[ext_resource type="Script" uid="uid://b01877es3j14t" path="res://code/players/Poyo/states/base.gd" id="5_hqvij"]
+[ext_resource type="AudioStream" uid="uid://cyvx3oaewyh15" path="res://assets/characters/poyo/sounds/jump.wav" id="6_48gw3"]
+[ext_resource type="Script" uid="uid://033g37nqh3x0" path="res://code/players/Poyo/states/run.gd" id="7_30pj0"]
+[ext_resource type="Script" uid="uid://1tbufsk43owq" path="res://code/players/Poyo/leniency_manager.gd" id="7_48gw3"]
+[ext_resource type="AudioStream" uid="uid://cch7dwyitgm5f" path="res://assets/characters/poyo/sounds/run1.wav" id="7_u24ft"]
+[ext_resource type="Script" uid="uid://bnnrih1an1mrb" path="res://code/players/Poyo/states/air.gd" id="8_2f8sg"]
+[ext_resource type="AudioStream" uid="uid://b7jey86hpw4ch" path="res://assets/characters/poyo/sounds/run2.wav" id="8_mi5p8"]
+[ext_resource type="AudioStream" uid="uid://c8mj2gcq71uyq" path="res://assets/characters/poyo/sounds/run3.wav" id="9_drkd1"]
+[ext_resource type="Script" uid="uid://dwikt6w3pdqal" path="res://code/backend/animation/SpriteAnimationEntry/script.gd" id="10_o8id8"]
+[ext_resource type="Script" uid="uid://duesydck6ws5a" path="res://code/backend/PlayerCamera/script.gd" id="11_0w61o"]
+[ext_resource type="Script" uid="uid://b3t3hrgdng4s1" path="res://code/players/Poyo/camera_states/base.gd" id="12_78w14"]
+[ext_resource type="Script" uid="uid://6yqh1ygjxfkd" path="res://code/players/Poyo/camera_states/run.gd" id="13_oc3v6"]
+[ext_resource type="Script" uid="uid://btpi3cc5vl5f6" path="res://code/backend/input/PlayerInput/script.gd" id="18_q2tw6"]
+[ext_resource type="Texture2D" uid="uid://dqjikj3r1m3ni" path="res://assets/characters/poyo/Face/Idle/0.png" id="22_mi5p8"]
+
+[sub_resource type="Resource" id="Resource_7rny1"]
+script = ExtResource("10_o8id8")
+sprite = NodePath("../Sprite")
+path = "res://assets/characters/poyo/Body"
+metadata/_custom_type_script = "uid://dwikt6w3pdqal"
+
+[sub_resource type="Resource" id="Resource_bv341"]
+script = ExtResource("10_o8id8")
+sprite = NodePath("../Face")
+path = "res://assets/characters/poyo/Face"
+metadata/_custom_type_script = "uid://dwikt6w3pdqal"
+
+[node name="Poyo" unique_id=1083869228 node_paths=PackedStringArray("sprite", "collider") instance=ExtResource("1_naqs2")]
+z_index = 1
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("2_cty5n")
+sprite = NodePath("Sprite")
+collider = NodePath("Collider")
+
+[node name="Sounds" type="Node2D" parent="." index="1" unique_id=116127751]
+
+[node name="Footstep" type="AudioStreamPlayer2D" parent="Sounds" index="0" unique_id=2025887756]
+stream = ExtResource("5_bv341")
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="Sounds" index="1" unique_id=719575652]
+stream = ExtResource("6_48gw3")
+
+[node name="Run1" type="AudioStreamPlayer2D" parent="Sounds" index="2" unique_id=290347527]
+stream = ExtResource("7_u24ft")
+
+[node name="Run2" type="AudioStreamPlayer2D" parent="Sounds" index="3" unique_id=868483923]
+stream = ExtResource("8_mi5p8")
+
+[node name="Run3" type="AudioStreamPlayer2D" parent="Sounds" index="4" unique_id=807564736]
+stream = ExtResource("9_drkd1")
+
+[node name="Scripts" type="Node" parent="." index="2" unique_id=1952399679]
+
+[node name="Input" type="Node" parent="Scripts" index="0" unique_id=503635736]
+script = ExtResource("18_q2tw6")
+
+[node name="Move" type="Node" parent="Scripts/Input" index="0" unique_id=38012756]
+script = ExtResource("2_56sx4")
+secondary_action_name = &"right"
+action_name = &"left"
+metadata/_custom_type_script = "uid://phs5qasvhdmo"
+
+[node name="Jump" type="Node" parent="Scripts/Input" index="1" unique_id=464583139]
+script = ExtResource("3_u157v")
+action_name = &"jump"
+metadata/_custom_type_script = "uid://bxb10h2u1r6g2"
+
+[node name="Sprint" type="Node" parent="Scripts/Input" index="2" unique_id=510275706]
+script = ExtResource("3_u157v")
+action_name = &"sprint"
+metadata/_custom_type_script = "uid://bxb10h2u1r6g2"
+
+[node name="LeniencyManager" type="Node" parent="Scripts" index="1" unique_id=1985139828 node_paths=PackedStringArray("player")]
+script = ExtResource("7_48gw3")
+player = NodePath("../..")
+
+[node name="StateMachine" type="Node" parent="Scripts" index="2" unique_id=387687362 node_paths=PackedStringArray("target")]
+script = ExtResource("4_hqvij")
+target = NodePath("../..")
+metadata/_custom_type_script = "uid://bwautvgvgwny8"
+
+[node name="Walk" type="Node" parent="Scripts/StateMachine" index="0" unique_id=288539401]
+script = ExtResource("5_hqvij")
+metadata/_custom_type_script = "uid://cwj7u5t5ltdym"
+
+[node name="Run" type="Node" parent="Scripts/StateMachine" index="1" unique_id=1943892221 node_paths=PackedStringArray("dash_sound", "sound", "leniency_manager")]
+script = ExtResource("7_30pj0")
+dash_sound = NodePath("../../../Sounds/Run1")
+sound = NodePath("../../../Sounds/Footstep")
+pitch_range = Vector2(0.5, 1.5)
+leniency_manager = NodePath("../../LeniencyManager")
+metadata/_custom_type_script = "uid://cwj7u5t5ltdym"
+
+[node name="Air" type="Node" parent="Scripts/StateMachine" index="2" unique_id=45004624 node_paths=PackedStringArray("sound", "leniency_manager")]
+script = ExtResource("8_2f8sg")
+sound = NodePath("../../../Sounds/Jump")
+leniency_manager = NodePath("../../LeniencyManager")
+metadata/_custom_type_script = "uid://cwj7u5t5ltdym"
+
+[node name="Animator" type="Node" parent="." index="3" unique_id=1385748109 node_paths=PackedStringArray("editor_animation")]
+script = ExtResource("2_am0oc")
+entries = Array[ExtResource("10_o8id8")]([SubResource("Resource_7rny1"), SubResource("Resource_bv341")])
+editor_animation = NodePath("Idle")
+metadata/_custom_type_script = "uid://cdg8dissg4uky"
+
+[node name="Idle" type="Node" parent="Animator" index="0" unique_id=79030749]
+script = ExtResource("3_hqvij")
+framerate = 8.0
+metadata/_custom_type_script = "uid://cj44dw4dv3qdv"
+
+[node name="Walking" type="Node" parent="Animator" index="1" unique_id=1832253341]
+script = ExtResource("3_hqvij")
+framerate = 12.0
+metadata/_custom_type_script = "uid://cj44dw4dv3qdv"
+
+[node name="Running" type="Node" parent="Animator" index="2" unique_id=2051796821]
+script = ExtResource("3_hqvij")
+framerate = 12.0
+metadata/_custom_type_script = "uid://cj44dw4dv3qdv"
+
+[node name="Fall" type="Node" parent="Animator" index="3" unique_id=498130854]
+script = ExtResource("3_hqvij")
+framerate = 28.0
+loop_frame = 6
+offset = Vector2(0, 10.5)
+metadata/_custom_type_script = "uid://cj44dw4dv3qdv"
+
+[node name="Jump" type="Node" parent="Animator" index="4" unique_id=609638387]
+script = ExtResource("3_hqvij")
+framerate = 28.0
+loop_frame = 2
+offset = Vector2(0, 10.5)
+metadata/_custom_type_script = "uid://cj44dw4dv3qdv"
+
+[node name="Skid" type="Node" parent="Animator" index="5" unique_id=1597564231]
+script = ExtResource("3_hqvij")
+framerate = 1.0
+offset = Vector2(4, 0)
+metadata/_custom_type_script = "uid://cj44dw4dv3qdv"
+
+[node name="Skating" type="Node" parent="Animator" index="6" unique_id=1578362435]
+script = ExtResource("3_hqvij")
+framerate = 16.0
+offset = Vector2(4, 0)
+metadata/_custom_type_script = "uid://cj44dw4dv3qdv"
+
+[node name="Skate" type="Node" parent="Animator" index="7" unique_id=1219882133]
+script = ExtResource("3_hqvij")
+framerate = 1.0
+offset = Vector2(4, 0)
+metadata/_custom_type_script = "uid://cj44dw4dv3qdv"
+
+[node name="Spinjump" type="Node" parent="Animator" index="8" unique_id=1669140319]
+script = ExtResource("3_hqvij")
+framerate = 1.0
+offset = Vector2(4, 0)
+metadata/_custom_type_script = "uid://cj44dw4dv3qdv"
+
+[node name="PlayerCamera" type="Camera2D" parent="." index="4" unique_id=436598678]
+script = ExtResource("11_0w61o")
+keep_in_limits = true
+camera_limits = Rect2(-20, -50, 40, 60)
+camera_position = Vector2(0, -64)
+metadata/_custom_type_script = "uid://duesydck6ws5a"
+
+[node name="StateMachine" type="Node" parent="PlayerCamera" index="0" unique_id=51521214 node_paths=PackedStringArray("target")]
+script = ExtResource("4_hqvij")
+target = NodePath("..")
+metadata/_custom_type_script = "uid://bwautvgvgwny8"
+
+[node name="Base" type="Node" parent="PlayerCamera/StateMachine" index="0" unique_id=863063678]
+script = ExtResource("12_78w14")
+metadata/_custom_type_script = "uid://cwj7u5t5ltdym"
+
+[node name="Run" type="Node" parent="PlayerCamera/StateMachine" index="1" unique_id=1053700319]
+script = ExtResource("13_oc3v6")
+metadata/_custom_type_script = "uid://cwj7u5t5ltdym"
+
+[node name="Face" type="Sprite2D" parent="." index="6" unique_id=574132953]
+texture = ExtResource("22_mi5p8")
+offset = Vector2(0, -25)
+
+[connection signal="new_frame" from="Animator/Walking" to="Scripts/StateMachine/Walk" method="_on_walk_frame"]
+[connection signal="new_frame" from="Animator/Running" to="Scripts/StateMachine/Run" method="_on_running_new_frame"]

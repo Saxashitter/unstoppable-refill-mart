@@ -68,6 +68,8 @@ sprint={
 2d_navigation/layer_3="Enemies"
 2d_physics/layer_4="Colas"
 2d_navigation/layer_4="Colas"
+2d_physics/layer_5="Rails"
+2d_navigation/layer_5="Rails"
 
 [physics]
 

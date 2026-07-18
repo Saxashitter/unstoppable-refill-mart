@@ -26,21 +26,21 @@ func process(delta: float):
 
 	var direction: int = player.direction
 	var base: State = states["Base"]
-	var player_run: State = player.state_machine.states["Run"]
+	#var player_run: State = player.state_machine.states["Run"]
 
 	# update x and move offset towards where we are going
-	if player_run._skating and offset == _lookahead_distance * direction:
-		_lookahead_distance = move_toward(
-			_lookahead_distance,
-			lookahead_distance_further,
-			lookahead_distance_speed_further * delta
-		)
-	else:
-		_lookahead_distance = move_toward(
-			_lookahead_distance,
-			lookahead_distance,
-			lookahead_distance_speed_closer * delta
-		)
+	#if player_run._skating and offset == _lookahead_distance * direction:
+		#_lookahead_distance = move_toward(
+			#_lookahead_distance,
+			#lookahead_distance_further,
+			#lookahead_distance_speed_further * delta
+		#)
+	#else:
+		#_lookahead_distance = move_toward(
+			#_lookahead_distance,
+			#lookahead_distance,
+			#lookahead_distance_speed_closer * delta
+		#)
 	offset = move_toward(offset, _lookahead_distance * direction, lookahead_speed * delta)
 	target.position.x = player.position.x + offset
 
