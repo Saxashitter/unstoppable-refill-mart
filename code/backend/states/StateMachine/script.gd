@@ -35,8 +35,10 @@ func _ready() -> void:
 
 func _process(delta: float):
 	if current_state == null: return
+	if not is_multiplayer_authority(): return
 	current_state.process(delta)
 
 func _physics_process(delta: float):
 	if current_state == null: return
+	if not is_multiplayer_authority(): return
 	current_state.physics_process(delta)

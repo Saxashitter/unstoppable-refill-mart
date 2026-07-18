@@ -955,9 +955,9 @@ metadata/_custom_type_script = "uid://cwj7u5t5ltdym"
 [node name="PlayerAnimator" type="AnimationPlayer" parent="." index="4" unique_id=854670648]
 libraries/ = SubResource("AnimationLibrary_sflu4")
 autoplay = &"idle"
+next/fall = &"fall_loop"
 next/jump = &"jump_loop"
 next/skating = &"skate"
-next/fall = &"fall_loop"
 
 [node name="PlayerCamera" type="Camera2D" parent="." index="5" unique_id=436598678]
 script = ExtResource("11_0w61o")

@@ -6,4 +6,10 @@
 [node name="Game" type="Node2D" unique_id=517041710]
 script = ExtResource("1_fr1i1")
 
+[node name="Players" type="Node2D" parent="." unique_id=31911812]
+
 [node name="GameUI" parent="." unique_id=1145063088 instance=ExtResource("2_fr1i1")]
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="." unique_id=843451763]
+_spawnable_scenes = PackedStringArray("uid://j8mwegik5ina")
+spawn_path = NodePath("../Players")

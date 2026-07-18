@@ -9,4 +9,5 @@ extends Player
 
 func _set_direction(direction: int):
 	super(direction)
+	if not face: return
 	face.flip_h = sprite.flip_h

@@ -30,4 +30,10 @@ layout_mode = 2
 text = "singleplayer
 "
 
+[node name="Button2" type="Button" parent="VBoxContainer" unique_id=83295508]
+layout_mode = 2
+text = "multiplayer
+"
+
 [connection signal="button_down" from="VBoxContainer/Button" to="." method="start_singleplayer"]
+[connection signal="button_down" from="VBoxContainer/Button2" to="." method="start_multiplayer"]

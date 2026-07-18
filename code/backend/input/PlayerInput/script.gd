@@ -10,6 +10,8 @@ func _ready():
 		actions[action.name] = action
 
 func _physics_process(delta: float):
+	if not is_multiplayer_authority(): return # TODO: maybe work on a net-synched multiplayer input solution?
+
 	for action_key in actions.keys():
 		var action: PlayerInputAction = actions[action_key]
 
