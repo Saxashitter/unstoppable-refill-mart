@@ -1,111 +1,44 @@
-extends State
+extends PoyoMovementState
+class_name PoyoAirState
 
-@export var speed: float = 150
-@export var acceleration: float = 600
-@export var deceleration: float = 200
-@export var jump_height: float = 420
-
-@export var sound: AudioStreamPlayer2D
-@export var pitch_range = Vector2.ONE
-
-@export var leniency_manager: LeniencyManager
-
-var jumped: bool = false # if true, the player goes into their jump animation upon entering the state. otherwise, the fall animation
-var _jumped: bool = false # this is to keep our knowledge lmfao
-var _halved_jump: bool = false # if jumped is true, and the player releases jump, their jump height will be halved.
+@export var jump_state: PoyoJumpState
+@export var jump_leniency: bool = false
 
 func enter():
-	if jumped:
-		_jumped = true
-		_halved_jump = false
+	var player: Player = target
+	var animator: AnimationPlayer = player.animator
 
-		target.velocity.y = -jump_height
-		target.animator.play("Jump")
+	animator.speed_scale = 1
+	animator.play("fall_loop")
+	#player.animator.play("Fall")
+	#player.animator.current_frame = player.animator.current_animation.loop_frame
 
-		sound.pitch_scale = pitch_range.x + (randf() * (pitch_range.y - pitch_range.x))
-		sound.play()
-		leniency_manager.reset()
-	else:
-		_jumped = false
-		_halved_jump = false
-		target.animator.play("Fall")
-		target.animator.current_frame = target.animator.current_animation.loop_frame
-
-	jumped = false
-
+## poyos air state
 func physics_process(delta: float) -> void:
-	var base_state: State = states["Walk"]
-	_handle_horizontal_movement(delta)
-	if _handle_jump(): return
-	target.gravity(delta)
-	target.move_and_slide()
-	if _handle_grounded(): return
-	leniency_manager.update(delta)
+	super(delta)
 
-func _handle_horizontal_movement(delta: float) -> void:
-	var input: PlayerInput = target.input
-	var move: PlayerInputAnalogAction = input.get_input("Move")
+	var player: Player = target
 
-	var target_speed: float = speed * move.strength
-	var step: float = acceleration
+	if manage_state_swap(): return
 
-	if not move.is_down():
-		step = deceleration
+	if jump_leniency and jump_state.safe_jump(): return
 
-	target.velocity.x = move_toward(target.velocity.x, target_speed, step * delta)
+func manage_state_swap() -> bool:
+	var player: Player = target
 
-func _handle_jump() -> bool:
-	if not _jumped:
-		return safe_set(func():
-			jumped = true
-		)
-
-	# handle anim
-	var anim_name: String = target.animator.current_animation.name
-	if (anim_name == "Jump" or anim_name == "Spinjump") and target.velocity.y >= 0:
-		target.animator.play("Fall")
-
-	if _halved_jump: return false
-
-	var input: PlayerInput = target.input
-	var jump: PlayerInputAction = input.get_input("Jump")
-
-	if jump.is_down(): return false
-	_halved_jump = true
-	if target.velocity.y > 0: return false
-
-	target.velocity.y /= 2
-	return false
-
-func _handle_grounded() -> bool:
-	if target.is_on_floor():
-		var state = states["Walk"].get_target_grounded_state()
-
-		if state == states["Walk"]:
-			if target.velocity.x != 0:
-				target.animator.play("Walking")
-			else:
-				target.animator.play("Idle")
-
-		if state == states["Run"]:
-			state._dash_on_start = false
-
-		var direction: int = int(signf(target.velocity.x))
-		if direction == 0:
-			direction = target.direction
-
-		target.direction = direction
-		machine.set_state(state)
+	if player.is_on_floor():
+		machine.set_state(get_target_landing_state())
 		return true
 
 	return false
 
-func could():
-	var base_state: State = states["Walk"]
-	var input: PlayerInput = target.input
-	var jump: PlayerInputAction = input.get_input("Jump")
+func safe_fall():
+	var player: Player = target
+	var machine: StateMachine = player.state_machine
 
-	if not jump.is_pressed(): return false
-	if not leniency_manager.can_jump(): print("no"); return false
+	if not player.is_on_floor():
+		machine.set_state(self)
+		return
 
-	return true
+func get_target_landing_state() -> State:
+	return machine.states["Base"]

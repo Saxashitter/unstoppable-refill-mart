@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bfb4yhd0sgwrl"]
 
 [ext_resource type="Script" uid="uid://c2qlnr6iogvwn" path="res://code/backend/Map/script.gd" id="1_wo8b8"]
+[ext_resource type="AudioStream" uid="uid://verbbo56euux" path="res://assets/music/boss.ogg" id="2_a7nng"]
 
 [node name="Scene" type="Node2D" unique_id=126531298]
 script = ExtResource("1_wo8b8")
@@ -12,3 +13,6 @@ script = ExtResource("1_wo8b8")
 [node name="Collisions" type="Node2D" parent="." unique_id=1164452757]
 
 [node name="Spawns" type="Node2D" parent="." unique_id=453057045]
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=427044024]
+stream = ExtResource("2_a7nng")

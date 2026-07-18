@@ -1,91 +1,65 @@
-extends State
+extends PoyoMovementState
+class_name PoyoBaseState
 
-@export var speed: float = 100
-@export var acceleration: float = 1000
-@export var deceleration: float = 600
+## poyos regular movement state
 
 @export var leniency_manager: LeniencyManager
-
-@export var sound: AudioStreamPlayer2D
-@export var pitch_range = Vector2.ONE
+@export var jump_state: PoyoJumpState
+@export var air_state: PoyoAirState
+@export var dash_state: PoyoDashState
 
 func enter():
-	if target.camera == null: return
-	if target.camera.state_machine == null: return
-	target.camera.state_machine.set_state_by_name("Base")
+	var player: Player = target
+	var animator: AnimationPlayer = player.animator
+
+	if not player.animator: return
+
+	player.camera.state_machine.set_state_by_name("Base")
+
+	if player.velocity.x != 0:
+		animator.play("walk")
+	else:
+		animator.speed_scale = 1
+		animator.play("idle")
+
+	super()
 
 func physics_process(delta: float) -> void:
-	if _handle_horizontal_movement(delta): return
-	leniency_manager.update(delta)
+	super(delta)
 
-	target.gravity(delta)
-	target.move_and_slide()
-
-func process(delta: float) -> void:
-	_update_animation()
-
-func get_target_grounded_state() -> State:
-	var input: PlayerInput = target.input
+	var player: Player = target
+	var input: PlayerInput = player.input
 	var sprint: PlayerInputAction = input.get_input("Sprint")
 
+	leniency_manager.update(delta)
+
+	if air_state.safe_fall(): return
+	if jump_state.safe_jump(): return
+
 	if sprint.is_down():
-		return states["Run"]
+		machine.set_state(dash_state)
+		return
 
-	return self
+func _process(delta: float):
+	var player: Player = target
+	var animator: AnimationPlayer = player.animator
 
-func _handle_horizontal_movement(delta: float) -> bool:
-	var input: PlayerInput = target.input
-	var move: PlayerInputAnalogAction = input.get_input("Move")
+	if animator.current_animation != "walk":
+		return
 
-	var velocity_direction: int = int(signf(target.velocity.x))
-	var target_speed: float = speed * move.strength
-	var step: float = acceleration
+	animator.speed_scale = abs(player.velocity.x) / 40
 
-	var run_state: State = states["Run"]
-	var air_state: State = states["Air"]
+func start(new_direction: int = 1):
+	super(new_direction)
 
-	if run_state.safe_set(func():
-		run_state._dash_on_start = abs(target.velocity.x) <= speed / 2
-	):
-		return true
+	var player: Player = target
+	var animator: AnimationPlayer = player.animator
 
-	if air_state.safe_set(func():
-		air_state.jumped = true
-		air_state.speed = speed
-	):
-		return true
+	animator.play("walk")
 
-	if !target.is_on_floor():
-		air_state.jumped = false
-		air_state.speed = speed
-		machine.set_state(air_state)
-		return true
+func stop():
+	var player: Player = target
+	var animator: AnimationPlayer = player.animator
 
-	if move.is_pressed() or (move.direction != 0 and move.direction != target.direction) or move.reversed:
-		walk(move.direction)
-
-	if not move.is_down():
-		step = deceleration
-	elif velocity_direction != 0 and move.direction == -velocity_direction:
-		step *= 1.5
-
-	target.velocity.x = move_toward(target.velocity.x, target_speed, step * delta)
-
-	if velocity_direction != 0 and target.velocity.x == 0 and not move.is_down():
-		target.animator.play("Idle")
-
-	return false
-func _update_animation() -> void:
-	var speed_frac: float = abs(target.velocity.x) / speed
-	var walk_anim: SpriteAnimation = target.animator.get_animation("Walking")
-
-	walk_anim.speed = 1.6 * speed_frac
-
-func walk(direction: int) -> void:
-	target.direction = direction
-	target.animator.play("Walking")
-
-func _on_walk_frame(frame: int) -> void:
-	if frame == 0 or frame == 4:
-		sound.pitch_scale = pitch_range.x + (randf() * (pitch_range.y - pitch_range.x))
-		sound.play()
+	animator.speed_scale = 1
+	animator.play("idle")

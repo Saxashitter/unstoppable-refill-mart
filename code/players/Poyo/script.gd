@@ -1,7 +1,7 @@
 extends Player
 
 @onready var state_machine: StateMachine = $Scripts/StateMachine
-@onready var animator: SpriteAnimator = $Animator
+@onready var animator: AnimationPlayer = $PlayerAnimator
 @onready var camera: PlayerCamera = $PlayerCamera
 @onready var face: Sprite2D = $Face
 @onready var input: PlayerInput = $Scripts/Input

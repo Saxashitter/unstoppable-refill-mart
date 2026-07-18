@@ -39,4 +39,4 @@ func is_released():
 	return state == InputState.RELEASED or state == InputState.JUST_RELEASED
 
 func is_just_released():
-	return state == InputState.RELEASED or state == InputState.JUST_RELEASED
+	return state == InputState.JUST_RELEASED
