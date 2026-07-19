@@ -12,6 +12,8 @@ class_name PoyoDashJumpState
 
 @onready var _speed: float = 0
 
+var kickflipping: bool = false
+
 func enter():
 	_speed = abs(target.velocity.x)
 	speed = _speed
