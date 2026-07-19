@@ -1,5 +1,9 @@
 extends Control
 
+@onready var player_name: LineEdit = $VBoxContainer/PlayerName
+@onready var ip_text: LineEdit = $VBoxContainer/IP
+@onready var port_text: LineEdit = $VBoxContainer/Port
+
 const IP_ADDRESS: String = "localhost"
 const PORT: int = 25565
 
@@ -10,10 +14,27 @@ func server_connection_signal():
 	get_tree().change_scene_to_packed(game)
 
 func create_multi_instance(server: bool = true):
+	# set player name...
+	var new_name: String = player_name.text.strip_edges()
+	var ip_address: String = IP_ADDRESS
+	var port: int = PORT
+
+	var port_string: String = port_text.text.strip_edges()
+	var ip_string: String = ip_text.text.strip_edges()
+
+	if ip_string != "":
+		ip_address = ip_string
+
+	if port_string != "" and int(port_string) != null:
+		port = int(port_string)
+
+	if new_name != "":
+		GameData.player_name = new_name
+
 	var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 
 	if server:
-		peer.create_server(PORT)
+		peer.create_server(port)
 		multiplayer.multiplayer_peer = peer
 
 		multiplayer.peer_connected.connect(func(pid: int):
@@ -24,7 +45,7 @@ func create_multi_instance(server: bool = true):
 		get_tree().change_scene_to_packed(game)
 		return
 
-	peer.create_client(IP_ADDRESS, PORT)
+	peer.create_client(ip_address, port)
 	multiplayer.multiplayer_peer = peer
 
 	multiplayer.connected_to_server.connect(server_connection_signal)

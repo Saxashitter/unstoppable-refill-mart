@@ -18,10 +18,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -62.75
+offset_top = -51.0
+offset_right = 62.75
+offset_bottom = 51.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -34,6 +34,22 @@ text = "host
 layout_mode = 2
 text = "join
 "
+
+[node name="IP" type="LineEdit" parent="VBoxContainer" unique_id=903371586]
+layout_mode = 2
+placeholder_text = "IP Address"
+alignment = 1
+
+[node name="Port" type="LineEdit" parent="VBoxContainer" unique_id=1782174905]
+layout_mode = 2
+placeholder_text = "Port"
+alignment = 1
+
+[node name="PlayerName" type="LineEdit" parent="VBoxContainer" unique_id=2001224489]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+placeholder_text = "Player Name"
+alignment = 1
 
 [connection signal="button_down" from="VBoxContainer/Button" to="." method="_on_host_pressed"]
 [connection signal="button_down" from="VBoxContainer/Button2" to="." method="_on_join_pressed"]
