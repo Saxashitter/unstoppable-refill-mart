@@ -6,6 +6,9 @@ extends Player
 @onready var face: Sprite2D = $Face
 @onready var input: PlayerInput = $Scripts/Input
 @onready var sounds: Node2D = $Sounds
+@onready var effects: EffectManager = $Effects
+
+var tween: Tween
 
 func _set_direction(direction: int):
 	super(direction)

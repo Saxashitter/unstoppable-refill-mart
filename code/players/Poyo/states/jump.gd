@@ -5,7 +5,7 @@ class_name PoyoJumpState
 
 @export var jump_height: float = 420
 @export var leniency_manager: LeniencyManager
-@export var play_fall_animation: bool = false
+@export var play_fall_animation: bool = true
 
 var jump_halved: bool = false
 var jump_descending: bool = false
@@ -19,7 +19,6 @@ func enter():
 
 	player.velocity.y = -jump_height
 
-	animator.speed_scale = 1
 	animator.play("jump")
 
 	leniency_manager.reset()
@@ -36,8 +35,8 @@ func jump_descent():
 
 	jump_descending = true
 
-	animator.speed_scale = 1
-	animator.play("fall")
+	if play_fall_animation:
+		animator.play("fall")
 
 func physics_process(delta: float) -> void:
 	var player: Player = target

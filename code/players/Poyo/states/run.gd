@@ -9,43 +9,45 @@ class_name PoyoDashState
 @export var leniency_manager: LeniencyManager
 @export var grind_area: Area2D
 
-@export var speedup_speed: float = 0
 @export var skate_speed: float = 0
 @export var max_speed: float = 0
 @export var should_set_dash_state: bool = false
 @export var should_speedup: bool = false
-@export var buffer_deceleration: float = 10
+@export var buffer_deceleration: float = 50
 @export var buffer_add: float = 20
 @export var dash_dance_leniency: float = 0.1
+@export var ghost_effect_time: float = 0.3
 
 var rail_grinding: bool = false
 var dash_dance_time: float = 0
+var _ghost_time = 0
 @onready var _speed: float = speed # to reset...
 
 var dash_on_start: bool = true
 
 enum DashType {
 	RUN, # the player is still technically running
-	SPEEDUP, # the player is moving their skateboard forward
-	SKATE # the max skateboard speed
+	SKATE, # the player is moving their skateboard forward
 }
 var type: DashType = DashType.RUN
 
 func enter():
 	super()
 
-	speed = _speed
+	speed = max(abs(target.velocity.x), _speed)
 
 	var player: Player = target
 	player.camera.state_machine.set_state_by_name("Run")
 
-	if dash_on_start and abs(player.velocity.x) < speed:
+	if dash_on_start:
 		player.velocity.x = speed * player.direction
 		dash_dance_time = dash_dance_leniency
 	else:
 		dash_dance_time = 0
 
 	set_dash_type(get_dash_type())
+	if type == DashType.SKATE:
+		player.animator.play("kickflip_land")
 	dash_on_start = true
 
 func physics_process(delta: float) -> void:
@@ -53,17 +55,23 @@ func physics_process(delta: float) -> void:
 	vertical_movement(delta)
 
 	if grind_state.should_grind():
-			machine.set_state(grind_state)
-			return
+		machine.set_state(grind_state)
+		return
 	#var floorcast: ShapeCast2D = player.floorcast
 #
 	#if rail_grinding and player.is_on_floor() and floorcast.is_colliding():
 		#print("GRIND")
 
 	leniency_manager.update(delta)
-
 	target.move_and_slide()
 	jump_state.safe_jump()
+
+func process(delta: float):
+	var player: Player = target
+
+	_ghost_time = max(0, _ghost_time - delta)
+	if _ghost_time > 0:
+		player.effects.ghost_effect()
 
 func _process(delta: float):
 	var player: Player = target
@@ -92,11 +100,14 @@ func handle_dash(delta: float) -> bool:
 		speed = max(_speed, speed - buffer_deceleration * delta)
 
 		if move.is_pressed() and move.direction == direction and old_speed >= _speed:
-			if type == DashType.SPEEDUP:
+			if type == DashType.SKATE:
 				animator.play("RESET")
 				animator.play("skating")
 			speed = min(speed + buffer_add, max_speed)
 			player.velocity.x = speed * direction
+
+			if speed == max_speed:
+				_ghost_time = ghost_effect_time
 
 	player.velocity.x = move_toward(player.velocity.x, speed * direction, acceleration * delta)
 
@@ -119,6 +130,9 @@ func handle_dash(delta: float) -> bool:
 
 		if type != target_type:
 			set_dash_type(target_type)
+			if type == DashType.SKATE:
+				animator.play("RESET")
+				animator.play("skating")
 
 	return false
 
@@ -135,10 +149,6 @@ func set_dash_type(new_type: DashType = type):
 		DashType.RUN:
 			enable_rail_grinding(false)
 			animator.play("run")
-		DashType.SPEEDUP:
-			enable_rail_grinding(true)
-			animator.speed_scale = 1
-			animator.play("skating")
 		DashType.SKATE:
 			enable_rail_grinding(true)
 			animator.speed_scale = 1
@@ -150,10 +160,8 @@ func get_dash_type():
 	var player: Player = target
 	var speed: float = abs(player.velocity.x)
 
-	if speed >= skate_speed:
+	if speed > skate_speed:
 		return DashType.SKATE
-	if speed > speedup_speed:
-		return DashType.SPEEDUP
 
 	return DashType.RUN
 

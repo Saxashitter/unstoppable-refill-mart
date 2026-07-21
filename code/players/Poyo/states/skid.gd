@@ -29,13 +29,15 @@ func horizontal_movement(delta: float) -> void:
 	if jump.is_pressed():
 		var _jump_height: float = jump_state.jump_height
 
+		# dash_state.speed = dash_state._speed # reset speed
+
 		player.direction *= -1
 		player.velocity.x = dash_state.speed * player.direction
 		jump_state.jump_height *= 1.25
 
+		dash_state.set_dash_type(dash_state.get_dash_type())
 		machine.set_state(jump_state)
 
-		player.animator.play("Spinjump")
 		jump_state.jump_descending = true
 		jump_state.jump_height = _jump_height
 

@@ -31,12 +31,15 @@ func physics_process(delta: float) -> void:
 	var input: PlayerInput = player.input
 	var sprint: PlayerInputAction = input.get_input("Sprint")
 
+	player.effects.ghost_effect()
+
 	leniency_manager.update(delta)
 
 	if air_state.safe_fall(): return
 	if jump_state.safe_jump(): return
 
 	if sprint.is_down():
+		dash_state.dash_on_start = true
 		machine.set_state(dash_state)
 		return
 
@@ -47,7 +50,7 @@ func _process(delta: float):
 	if animator.current_animation != "walk":
 		return
 
-	animator.speed_scale = abs(player.velocity.x) / 40
+	animator.speed_scale = abs(player.velocity.x) / 50
 
 func start(new_direction: int = 1):
 	super(new_direction)

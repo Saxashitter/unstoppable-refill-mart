@@ -14,5 +14,7 @@ script = ExtResource("1_wo8b8")
 
 [node name="Spawns" type="Node2D" parent="." unique_id=453057045]
 
+[node name="Rails" type="Node2D" parent="." unique_id=342995183]
+
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=427044024]
 stream = ExtResource("2_a7nng")

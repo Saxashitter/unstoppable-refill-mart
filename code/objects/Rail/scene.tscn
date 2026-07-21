@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://j5ywpxljt0px"]
+
+[ext_resource type="Script" uid="uid://dfqb8gjx6nbqk" path="res://code/objects/Rail/script.gd" id="1_4o08h"]
+
+[node name="Rail" type="Path2D" unique_id=2021923529]
+script = ExtResource("1_4o08h")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="." unique_id=999262011]
+position = Vector2(-12, 180)
+rotation = -2.6779451

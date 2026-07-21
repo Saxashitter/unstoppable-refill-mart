@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dex02dop6m3o" path="res://code/backend/Player/scene.tscn" id="1_naqs2"]
 [ext_resource type="Script" uid="uid://phs5qasvhdmo" path="res://code/backend/input/PlayerInputAnalogAction/script.gd" id="2_56sx4"]
 [ext_resource type="Script" uid="uid://dm6v3upsugsog" path="res://code/players/Poyo/script.gd" id="2_cty5n"]
+[ext_resource type="Script" uid="uid://cw6glorv1enxb" path="res://code/managers/EffectManager/script.gd" id="3_tbtnp"]
 [ext_resource type="Script" uid="uid://bxb10h2u1r6g2" path="res://code/backend/input/PlayerInputAction/script.gd" id="3_u157v"]
 [ext_resource type="Script" uid="uid://bwautvgvgwny8" path="res://code/backend/states/StateMachine/script.gd" id="4_hqvij"]
 [ext_resource type="AudioStream" uid="uid://dgvr4yojistn7" path="res://assets/characters/poyo/sounds/footstep.wav" id="5_bv341"]
@@ -97,16 +98,36 @@
 [ext_resource type="Texture2D" uid="uid://uv54cxk1edoq" path="res://assets/characters/poyo/Face/Running/9.png" id="48_61po4"]
 [ext_resource type="Texture2D" uid="uid://nnu822ce1dlu" path="res://assets/characters/poyo/Face/Running/10.png" id="49_twomv"]
 [ext_resource type="Texture2D" uid="uid://ctckwcx5uxkw1" path="res://assets/characters/poyo/Face/Running/11.png" id="50_b50yk"]
+[ext_resource type="Texture2D" uid="uid://gf4ybbdj1b7x" path="res://assets/characters/poyo/Body/Kickflip/poyoskatejump_body0.png" id="54_nbwor"]
+[ext_resource type="Texture2D" uid="uid://bta7wjw3iubao" path="res://assets/characters/poyo/Body/Kickflip/poyoskatejump_body1.png" id="55_tbtnp"]
+[ext_resource type="Texture2D" uid="uid://b7vd1ycq18ubk" path="res://assets/characters/poyo/Body/Kickflip/poyoskatejump_body2.png" id="56_48bq8"]
+[ext_resource type="Texture2D" uid="uid://dx6puw27lyad1" path="res://assets/characters/poyo/Body/Kickflip/poyoskatejump_body3.png" id="57_3b4du"]
+[ext_resource type="Texture2D" uid="uid://b1u6emeuiwnm5" path="res://assets/characters/poyo/Face/Kickflip/poyoskatejump_face0.png" id="58_iir7m"]
+[ext_resource type="Texture2D" uid="uid://dhlt2x1ilr6ck" path="res://assets/characters/poyo/Face/Kickflip/poyoskatejump_face1.png" id="59_t7c6r"]
+[ext_resource type="Texture2D" uid="uid://4yer7x3neohu" path="res://assets/characters/poyo/Face/Kickflip/poyoskatejump_face2.png" id="60_q6o4k"]
 [ext_resource type="Texture2D" uid="uid://dsiah88l2irbq" path="res://assets/characters/poyo/Body/Skating/2.png" id="61_c64sw"]
+[ext_resource type="Texture2D" uid="uid://n3fi6ah2wy5s" path="res://assets/characters/poyo/Face/Kickflip/poyoskatejump_face3.png" id="61_qamvk"]
 [ext_resource type="Texture2D" uid="uid://vj5isgyf6ivl" path="res://assets/characters/poyo/Body/Skating/3.png" id="62_1ikdl"]
+[ext_resource type="Texture2D" uid="uid://ddr8g0ujfgsnl" path="res://assets/characters/poyo/Body/Kickflip/poyoskatejump_body8.png" id="62_trlss"]
+[ext_resource type="Texture2D" uid="uid://bhcsyjae8yn6u" path="res://assets/characters/poyo/Face/Kickflip/poyoskatejump_face8.png" id="63_22s3j"]
 [ext_resource type="Texture2D" uid="uid://bnybd0iqymsat" path="res://assets/characters/poyo/Body/Skating/4.png" id="63_mvmv2"]
+[ext_resource type="Texture2D" uid="uid://5cwgpvdeuwy0" path="res://assets/characters/poyo/Body/Kickflip/poyoskatejump_body4.png" id="64_7k3mr"]
 [ext_resource type="Texture2D" uid="uid://cn4qm61s7grbh" path="res://assets/characters/poyo/Body/Skate/0.png" id="64_lh0c5"]
 [ext_resource type="Texture2D" uid="uid://cwfqg6fb6v444" path="res://assets/characters/poyo/Face/Skating/2.png" id="65_0lb8h"]
+[ext_resource type="Texture2D" uid="uid://cg5hfhhj4iqf8" path="res://assets/characters/poyo/Body/Kickflip/poyoskatejump_body5.png" id="65_rvrwq"]
+[ext_resource type="Texture2D" uid="uid://ch5pma00g5hhc" path="res://assets/characters/poyo/Body/Kickflip/poyoskatejump_body6.png" id="66_gr7rj"]
 [ext_resource type="Texture2D" uid="uid://ivahsj7j1bqu" path="res://assets/characters/poyo/Face/Skating/3.png" id="66_sftyo"]
+[ext_resource type="Texture2D" uid="uid://dtj4nk2486geq" path="res://assets/characters/poyo/Body/Kickflip/poyoskatejump_body7.png" id="67_0l4t3"]
 [ext_resource type="Texture2D" uid="uid://btc8twx8bewrq" path="res://assets/characters/poyo/Face/Skating/4.png" id="68_a35j1"]
 [ext_resource type="Texture2D" uid="uid://csx4r7ij2rp0x" path="res://assets/characters/poyo/Face/Skate/0.png" id="68_c64sw"]
+[ext_resource type="Texture2D" uid="uid://buldkp71jk4jl" path="res://assets/characters/poyo/Face/Kickflip/poyoskatejump_face4.png" id="68_lor74"]
+[ext_resource type="Texture2D" uid="uid://bgsd616uddk2d" path="res://assets/characters/poyo/Face/Kickflip/poyoskatejump_face5.png" id="69_kj5g4"]
 [ext_resource type="Texture2D" uid="uid://cp51h2wvhvnnn" path="res://assets/characters/poyo/Body/Skid/0.png" id="69_mvmv2"]
 [ext_resource type="Texture2D" uid="uid://wfgl7ngx4j6i" path="res://assets/characters/poyo/Face/Skid/0.png" id="70_lh0c5"]
+[ext_resource type="Texture2D" uid="uid://c0v2e5psj6lxo" path="res://assets/characters/poyo/Face/Kickflip/poyoskatejump_face6.png" id="70_qa826"]
+[ext_resource type="Texture2D" uid="uid://bgrro8ql3ucqo" path="res://assets/characters/poyo/Face/Kickflip/poyoskatejump_face7.png" id="71_x3kjb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tbtnp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_57qmd"]
 radius = 8.0
@@ -497,6 +518,215 @@ tracks/3/keys = {
 "values": [Vector2(0, -14.5)]
 }
 
+[sub_resource type="Animation" id="Animation_qkttc"]
+resource_name = "kickflip"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("54_nbwor"), ExtResource("55_tbtnp"), ExtResource("56_48bq8"), ExtResource("57_3b4du")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Face:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("58_iir7m"), ExtResource("59_t7c6r"), ExtResource("60_q6o4k"), ExtResource("61_qamvk")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Face:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -25)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite:offset")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -25)]
+}
+tracks/4/type = "audio"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sounds/Jump")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("6_48gw3")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/4/use_blend = true
+tracks/5/type = "audio"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sounds/Footstep")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"clips": [{
+"end_offset": 0.30783063,
+"start_offset": 0.0,
+"stream": ExtResource("8_mi5p8")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/5/use_blend = true
+
+[sub_resource type="Animation" id="Animation_li6qh"]
+resource_name = "kickflip_land"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("62_trlss")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Face:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("63_22s3j")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Face:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -25)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite:offset")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -25)]
+}
+
+[sub_resource type="Animation" id="Animation_b1vqo"]
+resource_name = "kickflip_loop"
+length = 0.2
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.049999997, 0.10000001, 0.14999999),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("64_7k3mr"), ExtResource("65_rvrwq"), ExtResource("66_gr7rj"), ExtResource("67_0l4t3")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Face:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.049999997, 0.10000001, 0.14999999),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("68_lor74"), ExtResource("69_kj5g4"), ExtResource("70_qa826"), ExtResource("71_x3kjb")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Face:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -25)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite:offset")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -25)]
+}
+tracks/4/type = "audio"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sounds/Footstep")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"clips": [{
+"end_offset": 0.30783063,
+"start_offset": 0.0,
+"stream": ExtResource("8_mi5p8")
+}, {
+"end_offset": 0.30783063,
+"start_offset": 0.0,
+"stream": ExtResource("8_mi5p8")
+}],
+"times": PackedFloat32Array(0, 0.1)
+}
+tracks/4/use_blend = true
+
 [sub_resource type="Animation" id="Animation_ha4j8"]
 resource_name = "run"
 loop_mode = 1
@@ -823,6 +1053,9 @@ _data = {
 &"idle": SubResource("Animation_m7uey"),
 &"jump": SubResource("Animation_cg24j"),
 &"jump_loop": SubResource("Animation_c64sw"),
+&"kickflip": SubResource("Animation_qkttc"),
+&"kickflip_land": SubResource("Animation_li6qh"),
+&"kickflip_loop": SubResource("Animation_b1vqo"),
 &"run": SubResource("Animation_ha4j8"),
 &"skate": SubResource("Animation_1ikdl"),
 &"skating": SubResource("Animation_l0r1y"),
@@ -832,6 +1065,7 @@ _data = {
 
 [node name="Poyo" unique_id=1083869228 node_paths=PackedStringArray("sprite", "collider") instance=ExtResource("1_naqs2")]
 z_index = 1
+material = SubResource("ShaderMaterial_tbtnp")
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("2_cty5n")
@@ -846,7 +1080,13 @@ collision_mask = 16
 position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_57qmd")
 
-[node name="Sounds" type="Node2D" parent="." index="2" unique_id=116127751]
+[node name="Effects" type="Node" parent="." index="2" unique_id=345582538 node_paths=PackedStringArray("target", "sprites")]
+script = ExtResource("3_tbtnp")
+target = NodePath("..")
+sprites = [NodePath("../Sprite"), NodePath("../Face")]
+metadata/_custom_type_script = "uid://cw6glorv1enxb"
+
+[node name="Sounds" type="Node2D" parent="." index="3" unique_id=116127751]
 
 [node name="Footstep" type="AudioStreamPlayer2D" parent="Sounds" index="0" unique_id=2025887756]
 
@@ -860,7 +1100,7 @@ stream = ExtResource("8_mi5p8")
 [node name="Run3" type="AudioStreamPlayer2D" parent="Sounds" index="4" unique_id=807564736]
 stream = ExtResource("9_drkd1")
 
-[node name="Scripts" type="Node" parent="." index="3" unique_id=1952399679]
+[node name="Scripts" type="Node" parent="." index="4" unique_id=1952399679]
 
 [node name="Input" type="Node" parent="Scripts" index="0" unique_id=503635736]
 script = ExtResource("18_q2tw6")
@@ -905,8 +1145,7 @@ jump_state = NodePath("../DashJump")
 grind_state = NodePath("../Grind")
 leniency_manager = NodePath("../../LeniencyManager")
 grind_area = NodePath("../../../RailGrinder")
-speedup_speed = 250.0
-skate_speed = 350.0
+skate_speed = 250.0
 max_speed = 400.0
 should_set_dash_state = true
 should_speedup = true
@@ -952,14 +1191,16 @@ dash_state = NodePath("../Dash")
 jump_state = NodePath("../DashJump")
 metadata/_custom_type_script = "uid://cwj7u5t5ltdym"
 
-[node name="PlayerAnimator" type="AnimationPlayer" parent="." index="4" unique_id=854670648]
+[node name="PlayerAnimator" type="AnimationPlayer" parent="." index="5" unique_id=854670648]
 libraries/ = SubResource("AnimationLibrary_sflu4")
 autoplay = &"idle"
-next/jump = &"jump_loop"
-next/skating = &"skate"
 next/fall = &"fall_loop"
+next/jump = &"jump_loop"
+next/kickflip = &"kickflip_loop"
+next/kickflip_land = &"skate"
+next/skating = &"skate"
 
-[node name="PlayerCamera" type="Camera2D" parent="." index="5" unique_id=436598678]
+[node name="PlayerCamera" type="Camera2D" parent="." index="6" unique_id=436598678]
 script = ExtResource("11_0w61o")
 keep_in_limits = true
 camera_limits = Rect2(-20, -50, 40, 60)
@@ -979,6 +1220,6 @@ metadata/_custom_type_script = "uid://cwj7u5t5ltdym"
 script = ExtResource("13_oc3v6")
 metadata/_custom_type_script = "uid://cwj7u5t5ltdym"
 
-[node name="Face" type="Sprite2D" parent="." index="7" unique_id=574132953]
+[node name="Face" type="Sprite2D" parent="." index="8" unique_id=574132953]
 texture = ExtResource("22_mi5p8")
 offset = Vector2(0, -25)

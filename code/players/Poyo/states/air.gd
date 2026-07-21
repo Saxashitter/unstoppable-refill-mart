@@ -18,6 +18,7 @@ func physics_process(delta: float) -> void:
 	super(delta)
 
 	var player: Player = target
+	player.effects.ghost_effect()
 
 	if manage_state_swap(): return
 
